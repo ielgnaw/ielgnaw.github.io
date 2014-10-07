@@ -1,0 +1,75 @@
+body{
+    background-color: #f5f5f5;
+    color: #333;
+    font-size: 13px;
+    font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+#wrapper{
+    margin: 0 auto;
+    width: 600px;
+    height: auto;
+}
+#proj-container{
+    margin:0;
+    padding:0;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+    -webkit-text-shadow: 0 1px 0 rgba(255,255,255,.5);
+    -moz-text-shadow: 0 1px 0 rgba(255,255,255,.5);
+    -ms-text-shadow: 0 1px 0 rgba(255,255,255,.5);
+    -o-text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+#proj-container > span{
+    display: block;
+    margin:0;
+    padding:0;
+    padding: 1.5em;
+    border-bottom:1px dashed #ccc;
+    color: #4183c5;
+    font-weight: bold;
+    font-size: 110%;
+    cursor: pointer;
+}
+#proj-container > span:hover{
+    background-color: #fff;
+}
+#toolbar-top{
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 10000;
+    width: 20%;
+    background-color: #f5f5f5;
+    color: #3d4349;
+    text-align: left;
+    _position:absolute;
+    _top: expression(documentElement.scrollTop + documentElement.clientHeight-this.offsetHeight);
+    /* for IE6 */overflow:visible;
+}
+#toolbar-top .left{
+    left: 0;
+    float: left;
+    margin: 5px 5px 5px 5px;
+    padding: 5px;
+}
+
+::-webkit-scrollbar-track-piece {
+    border-left: 1px solid #d2d2d2;
+    background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar {
+    width: 13px;
+    height: 13px;
+}
+
+::-webkit-scrollbar-thumb {
+    min-height: 28px;
+    border: 1px solid #979797;
+    background-color: #c2c2c2;
+    background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    border: 1px solid #636363;
+    background-color: #929292;
+}

@@ -1,0 +1,55 @@
+.msn-item{
+    width: 280px;
+    margin-bottom: 20px;
+    float: left;
+    background-color: #eee;
+    overflow: hidden;
+    /*box-shadow: 4px 4px 5px #DDD;*/
+    /*border: 2px solid #f8f8f8;*/
+}
+.msn-item:hover{
+    /*box-shadow: 1px 1px 0px #B4B1A9;*/
+    /*border: 2px solid rgb(199, 218, 142);*/
+}
+.msn-item:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-width: 16px 16px 0px 0px;
+    border-style: solid;
+    border-color: #fff #f5f5f5 #fff #fff;
+    background: #fff;
+    display: block;
+    width: 0;
+    Optional: shadow;
+    -webkit-box-shadow: -2px -2px 3px rgba(0,0,0,0.3), -1px 1px 3px rgba(0,0,0,0.2);
+    -moz-box-shadow: -2px -2px 3px rgba(0,0,0,0.3), -1px 1px 3px rgba(0,0,0,0.2);
+    box-shadow: -2px -2px 3px rgba(0,0,0,0.3), -1px 1px 3px rgba(0,0,0,0.2);
+}
+.msn-item:hover:before {
+    border-width: 24px 24px 0px 0px;
+}
+.msn-item-inner{
+}
+.msn-item-inner .name{
+    margin-bottom: 0.6em;
+    font-weight: bold;
+    font-size: 14px;
+}
+.msn-item-inner .desc{
+    line-height: 1.6em;
+    padding: 10px 15px;
+    background-color: #fff;
+    height: 200px;
+    word-break: break-all;
+}
+.msn-item-inner .tag{
+    background-color: #fff;
+    padding: 2px 5px 8px 15px;
+    color: #999;
+}
+.msn-item-inner .tag strong{
+    color: #666;
+    padding-right: 5px;
+}

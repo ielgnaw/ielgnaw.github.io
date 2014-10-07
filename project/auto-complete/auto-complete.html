@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="9OXX8YhPH8">
+    <meta name="google-site-verification" content="u4OsQ4qyvwAb1T378bL6QTNkPnpzLe71TFVYvu_pR-4">
+    <meta name="description" content="AutoComplete">
+    <meta name="keywords" content="AutoComplete">
+    <meta property="og:title" content="AutoComplete">
+    <meta property="og:site_name" content="Ielgnaw">
+    <title>AutoComplete</title>
+    <link rel="stylesheet" type="text/css" href="../project.css">
+    <style type="text/css">
+        #suggest {
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #817F82;
+        }
+        #suggest div {
+            display: block;
+            width: 300px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        #suggest div.selected {
+            background-color: #ebebeb;
+        }
+        #text {
+            position: absolute;
+            top: 230px;
+            left: 400px;
+        }
+
+    </style>
+    </head>
+    <body>
+        <div id="wrapper">
+            <h5>一个简单的智能提示搜索框</h5>
+            <p>比较复杂的需求如下：</p>
+            <p>1. 输入英文字母时不但要匹配名单中的英文词，还要对中文拼音进行匹配，匹配结果中有优先级顺序展示，发生英文词匹配的结果更靠前</p>
+            <p>2. 若只发生拼音匹配，请按照更符合自然语言习惯的优先级排序搜索结果（如输入“he”，则结果“和平鸽”比“陈嫂”更优先）</p>
+            <p>下面是我的实现。（源码在<a href="main.js" target="_blank">这里</a>，数据在<a href="N.js" target="_blank">这里</a>）。</p>
+            <input type="text" id="text">
+            <div id="suggest" style="display:none;"></div>
+        </div>
+        <script type="text/javascript" src="N.js"></script>
+        <script type="text/javascript" src="PYlib.js"></script>
+        <script type="text/javascript" src="main.js"></script>
+    </body>
+</html>
