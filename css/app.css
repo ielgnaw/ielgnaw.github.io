@@ -546,7 +546,7 @@ li {
 .show-for-small {
   display: none;
 }
-@media all and (max-width: 865px) {
+@media screen and (max-width: 865px) {
   #aside {
     width: 75px;
   }
@@ -592,7 +592,7 @@ li {
     margin-left: 300px;
   }
 }
-@media all and (max-width: 700px) {
+@media screen and (max-width: 700px) {
   #articles-list,
   #nav {
     display: none;
@@ -853,7 +853,7 @@ pre .variable.instance {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
 }
-@media all and (max-width: 678px) {
+@media screen and (max-width: 678px) {
   .github-box-wrap {
     display: block;
     width: inherit;
