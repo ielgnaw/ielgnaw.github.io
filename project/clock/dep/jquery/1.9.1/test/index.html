@@ -7,21 +7,17 @@
     <meta name="baidu-site-verification" content="9OXX8YhPH8" />
     <meta name="google-site-verification" content="u4OsQ4qyvwAb1T378bL6QTNkPnpzLe71TFVYvu_pR-4" />
     
-    <title>正则表达式学习（一） | Ielgnaw</title>
+    <title>Ielgnaw</title>
     
     <meta name="author" content="Ielgnaw">
     
 
     
-    <meta name="description" content="正则表达式学习">
+    <meta name="description" content="jQuery Testcase            require.config({      paths: {        &#39;jquery&#39;: &#39;../src/jquery.min&#39;      }    });            require([&#39;jquery&#39;]">
     
 
     
-    <meta name="keywords" content="正则,正则表达式">
-    
 
-    
-    <meta property="og:title" content="正则表达式学习（一）"/>
     
     <meta property="og:site_name" content="Ielgnaw"/>
 
@@ -96,8 +92,8 @@
             
                 <article class="post">
                     <h2 class="ui-tit-01">
-                        <a href="/2013/12/07/正则表达式学习/" title="正则表达式学习（一）">
-                            正则表达式学习（一）
+                        <a href="/project/clock/dep/jquery/1.9.1/test/index.html" title="">
+                            
                         </a>
                     </h2>
                     <span class="ui-date db">
@@ -105,11 +101,11 @@
 <div class="date">
 
     <i class="fa fa-calendar "></i>
-    <time datetime="2013-12-07T07:18:02.000Z"
+    <time datetime="2014-10-15T10:15:34.000Z"
     
         data-updated="true"
      itemprop="datePublished">
-    2013-12-07
+    2014-10-15
 </time>
 
 
@@ -120,314 +116,27 @@
 
                     </span>
                     <div class="ui-copy">
-                        <p>最近学习了正则表达式，在这里记录一下。个人认为正则这个东西主要还是多看多用，熟练工种。。。用多了自然就熟悉了……这篇文章主要记录了一些元字符的用法以及正则表达式的一些特性例如回溯引用、前后查找等等。</p>
-<p><a id="more"></a></p>
-<h4 id="基本元字符">基本元字符</h4>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">元字符</th>
-<th style="text-align:left">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>.</code></td>
-<td style="text-align:left">匹配任意单个字符（任何非换行字符）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\</code></td>
-<td style="text-align:left">对下一个字符转义</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>&#124;</code></td>
-<td style="text-align:left">逻辑或操作符</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>[]</code></td>
-<td style="text-align:left">匹配字符集合中的某一个字符，<code>[</code>和<code>]</code>不匹配任何字符，只负责定义一个字符集合。<br>（例如<code>[abc]</code>定义了一个包含<code>a</code>, <code>b</code>, <code>c</code>三个字母的字符集合）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>[^]</code></td>
-<td style="text-align:left">对字符集合求非，（例如<code>[^0-9]</code>将匹配任何不是数字的字符。）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>-</code></td>
-<td style="text-align:left">定义一个区间（例如<code>[0-9]</code>）。<br><code>-</code>是一个特殊的元字符，作为元字符只能用在<code>[</code>和<code>]</code>之间。<br>在字符集合以外的地方，<code>-</code>只是一个普通字符，只能匹配<code>-</code>。<br>因此，在正则表达式里，<code>-</code>不需要被转义。</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h4 id="数量元字符">数量元字符</h4>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">元字符</th>
-<th style="text-align:left">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>*</code></td>
-<td style="text-align:left">匹配前一个字符（子表达式）的<strong>零次或多次</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>*?</code></td>
-<td style="text-align:left"><code>*</code>的懒惰型版本</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>+</code></td>
-<td style="text-align:left">匹配前一个字符（子表达式）的<strong>一次或多次</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>+?</code></td>
-<td style="text-align:left"><code>+</code>的懒惰型版本</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>?</code></td>
-<td style="text-align:left">匹配前一个字符（子表达式）的<strong>零次或一次</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>{n}</code></td>
-<td style="text-align:left">匹配前一个字符（子表达式）的<strong>n次重复</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>{m, n}</code></td>
-<td style="text-align:left">匹配前一个字符（子表达式）<strong>至少m次，至多n次重复</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>{n, }</code></td>
-<td style="text-align:left">匹配前一个字符（子表达式）<strong>n次或更多次重复</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>{n, }?</code></td>
-<td style="text-align:left"><code>{n, }</code>的懒惰型版本</td>
-</tr>
-</tbody>
-</table>
-<p><code>+</code>和<code>*</code>都是贪婪型元字符，在匹配时会尽可能的从一段文本的开头一直匹配到这段文本的末尾，而不是从这段文本的开头匹配到碰到第一个匹配时位置。</p>
-<hr>
-<h4 id="位置元字符">位置元字符</h4>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">元字符</th>
-<th style="text-align:left">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>^</code></td>
-<td style="text-align:left">匹配字符串的开头。当它出现在一个字符集合里（被放在<code>[</code>和<code>]</code>之间）并紧跟在左方括号<code>[</code>的后面时，<br>它才能发挥求非的作用。如果是在字符集合的外面并位于一个模式的开头，则它将匹配字符串的开头。</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\A</code></td>
-<td style="text-align:left">匹配字符串的开头</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>$</code></td>
-<td style="text-align:left">匹配字符串的结束</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\Z</code></td>
-<td style="text-align:left">匹配字符串的结束</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\&lt;</code></td>
-<td style="text-align:left">匹配单词的开头</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\&gt;</code></td>
-<td style="text-align:left">匹配单词的结束</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\b</code></td>
-<td style="text-align:left">匹配单词的边界（开头和结束）。它匹配的是这样一个位置，<br>这个位置位于一个能够用来构成单词的字符（字母，数字和下划线，也就是与<code>\w</code>相匹配的字符）<br>和一个不能用来构成单词的字符（也就是与<code>\W</code>相匹配的字符）之间。<br><code>\b</code>匹配且只匹配一个位置，不匹配任何字符。用<code>\bcat</code>匹配到的字符串长度是3个字符（c, a, t），而不是5个字符。</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\B</code></td>
-<td style="text-align:left"><code>\b</code>的反义，表明不匹配一个单词边界，例如 <code>\B-\B</code>能够匹配<code>border - color</code>而不能匹配<code>border-color</code></td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h4 id="特殊字符元字符">特殊字符元字符</h4>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">元字符</th>
-<th style="text-align:left">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>[\b]</code></td>
-<td style="text-align:left">匹配一个退格字符</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\c</code></td>
-<td style="text-align:left">匹配一个控制字符</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\d</code></td>
-<td style="text-align:left">匹配任意一个数字字符（等价于<code>[0-9]</code>）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\D</code></td>
-<td style="text-align:left"><code>\d</code>的反义，匹配一个非数字字符（等价于<code>[^0-9]</code>）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\f</code></td>
-<td style="text-align:left">匹配一个换页符</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\n</code></td>
-<td style="text-align:left">匹配一个换行符</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\r</code></td>
-<td style="text-align:left">匹配一个回车符</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\s</code></td>
-<td style="text-align:left">匹配一个空白字符（等价于<code>[\f\n\r\t\v]</code>）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\S</code></td>
-<td style="text-align:left"><code>\s</code>的反义，匹配一个非空白字符（等价于<code>[^\f\n\r\t\v]</code>）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\t</code></td>
-<td style="text-align:left">匹配一个制表符（Tab键）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\v</code></td>
-<td style="text-align:left">匹配一个垂直制表符</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\w</code></td>
-<td style="text-align:left">匹配一个字母数字字符（大小写均可）或下划线（等价于<code>[a-zA-Z0-9_]</code>）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\W</code></td>
-<td style="text-align:left"><code>\w</code>的反义，匹配一个非字母数字下划线字符（等价于<code>[^a-zA-Z0-9_]</code>）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\x</code></td>
-<td style="text-align:left">匹配一个十六进制数字</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\0</code></td>
-<td style="text-align:left">匹配一个八进制数字</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h4 id="回溯引用和前后查找">回溯引用和前后查找</h4>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">元字符</th>
-<th style="text-align:left">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>()</code></td>
-<td style="text-align:left">定义一个子表达式，子表达式是一个更大的表达式的一部分，<br>把一个表达式划分为一系列子表达式的目的是为了把那些子表达式当作一个独立元素使用。<br>分析子表达式时，应该按照先内后外的原则来进行。</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\1</code></td>
-<td style="text-align:left">匹配第一个子表达式；<code>\2</code>匹配第二个子表达式，依此类推</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>?=</code></td>
-<td style="text-align:left">向前查找</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>?!</code></td>
-<td style="text-align:left">负向前查找</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>?&lt;=</code></td>
-<td style="text-align:left">向后查找</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>?&lt;!</code></td>
-<td style="text-align:left">负向后查找</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>?()</code></td>
-<td style="text-align:left">条件（if then）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>?()&#124;</code></td>
-<td style="text-align:left">条件（if then else）</td>
-</tr>
-</tbody>
-</table>
-<p>回溯引用指模式的后半部分引用在模式的前半部分中定义的子表达式（可以把回溯引用想象成变量）。<strong>回溯引用只能用来引用模式里的子表达式（用<code>(</code>和<code>)</code>括起来的正则表达式片段）</strong><br>如：<code>[ ]+(\w+)[ ]+\1</code>，这个正则表达式会匹配一段文本中连续重复出现的单词，其中<code>[ ]+</code>匹配一个或多个空格，<code>\w+</code>匹配一个或多个字母数字字符，<code>[ ]+</code>匹配随后的空格。注意，<code>\w+</code>是在括号里的，是一个子表达式，这个子表达式的作用是把整个模式的一部分单独划分出来以便在后面引用。这个模式的最后一部分是<code>\1</code>，这是一个回溯引用，它引用的就是前面划分出来的子表达式<code>(\w+)</code>。<code>\1</code>代表的就是模式的第一个子表达式，同样，<code>\2</code>代表第二个，<code>\3</code>代表第三个……<code>\0</code>通常代表整个正则表达式。<br>js中用<code>\</code>来标识回溯引用，但是在替换操作时，用<code>$</code>代替<code>\</code>。</p>
-<p>前后查找是指包含的匹配本身并不返回，而是用于确定正确的匹配位置，它并不是匹配结果的一部分。前后查找分为向前查找和向后查找，<strong>js不支持向后查找</strong>。</p>
-<p>向前查找查找出现在被匹配文本之后（右边）的字符，但是不消费这个字符。向前查找指定了一个必须匹配但不在结果中返回的模式。向前查找实际上就是一个子表达式。语法上看，一个向前查找模式其实就是一个以<code>?=</code>开头的子表达式，需要匹配的文本跟在<code>=</code>后面。向前查找和向后查找本身其实是有返回结果的，只是这个结果的长度永远是0而已，因此，前后查找操作有时也被称为零宽查找。<br>向后查找查找出现在被匹配文本之前（左边）的字符，但是不消费它。向后查找操作符是<code>?&lt;=</code>。</p>
-<hr>
-<h4 id="大小写转换">大小写转换</h4>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">元字符</th>
-<th style="text-align:left">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>\E</code></td>
-<td style="text-align:left">结束<code>\L</code>或<code>\U</code>转换</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\l</code></td>
-<td style="text-align:left">把下一个字符（或子表达式）转为小写</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\L</code></td>
-<td style="text-align:left">把后面的字符转为小写，直到遇到<code>\E</code>为止</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\u</code></td>
-<td style="text-align:left">把下一个字符（或子表达式）转为大写</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>\U</code></td>
-<td style="text-align:left">把后面的字符转为大写，直到遇到<code>\E</code>为止</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h4 id="匹配模式">匹配模式</h4>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">元字符</th>
-<th style="text-align:left">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>(?m)</code></td>
-<td style="text-align:left">分行匹配模式</td>
-</tr>
-</tbody>
-</table>
-<p><code>(?m)</code> 使得正则表达式引擎把行分隔符当做一个字符串分隔符来处理。在分行模式下，<code>^</code>不仅匹配正常的字符串开头，还将匹配分隔符（换行符）后面的开始位置（这个位置不可见）；类似的，<code>$</code>不仅匹配正常的字符串结尾，还将匹配分隔符（换行符）后面的结束位置。在使用的时候，<code>(?m)</code>必须出现在整个模式的最前面。（有些正则表达式不支持<code>(?m)</code>）如下例子，利用正则表达式匹配出每行注释：</p>
-<pre class="prettyPrint">
-function test () {
-    // this a comment
-    alert(1);
-    // this another comment
-    alert(1);
-}
-</pre>
-
-<p><code>^\s*//.*$</code>将匹配一个字符串的开始，然后是多个空白字符，在后面是<code>//</code>，再往后是任意文本，最后是一个字符串的结束。不过，这个模式只能找到第一条注释（并认为这条注释将一直延续到文件结尾，因为<code>*</code>是一个贪婪型的元字符）。加上<code>(?m)</code>后，<code>(?m)^\s*//.*$</code>将把换行符视为一个字符串分隔符，这样就可以把每行注释都匹配出来。</p>
+                        <!doctype html>
+<html>
+  <head>
+    <title>jQuery Testcase</title>
+    <script src="../lib/esl/0.0.1/src/esl.js"></script>
+    <script>
+    require.config({
+      paths: {
+        'jquery': '../src/jquery.min'
+      }
+    });
+    </script>
+  </head>
+  <body>
+  <script>
+  require(['jquery'], function($){
+    $(document).prop("title", $("<div />").jquery);
+  });
+  </script>
+  </body>
+</html>
 
                     </div>
                 </article>
@@ -479,25 +188,13 @@ if (document.domain != 'localhost') {
     <!--  -->
     <!-- path :  <br> -->
     <!--  -->
-    <!-- title :  <br> -->
-    <!--  -->
-    <!-- date :  <br> -->
-    <!--  -->
-    <!-- tags :  <br> -->
-    <!--  -->
-    <!-- categories :  <br> -->
-    <!--  -->
-    <!-- keywords :  <br> -->
-    <!--  -->
-    <!-- description :  <br> -->
-    <!--  -->
     <!-- content :  <br> -->
     <!--  -->
     <!-- source :  <br> -->
     <!--  -->
     <!-- raw :  <br> -->
     <!--  -->
-    <!-- slug :  <br> -->
+    <!-- date :  <br> -->
     <!--  -->
     <!-- updated :  <br> -->
     <!--  -->
@@ -505,23 +202,15 @@ if (document.domain != 'localhost') {
     <!--  -->
     <!-- _id :  <br> -->
     <!--  -->
+    <!-- title :  <br> -->
+    <!--  -->
     <!-- comments :  <br> -->
     <!--  -->
     <!-- layout :  <br> -->
     <!--  -->
-    <!-- photos :  <br> -->
-    <!--  -->
-    <!-- link :  <br> -->
-    <!--  -->
     <!-- permalink :  <br> -->
     <!--  -->
     <!-- full_source :  <br> -->
-    <!--  -->
-    <!-- asset_dir :  <br> -->
-    <!--  -->
-    <!-- prev :  <br> -->
-    <!--  -->
-    <!-- next :  <br> -->
     <!--  -->
 
     <!-- Baidu Button BEGIN -->
