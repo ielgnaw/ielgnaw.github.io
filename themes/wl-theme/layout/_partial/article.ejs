@@ -1,0 +1,44 @@
+<% if(index) { %>
+	<div class="meta">
+          <%- partial('post/date', {type: "index"}) %>
+          <%- partial('post/tag', {type: "index"}) %>
+          <% if(item.comment & config.disqus_shortname) { %>
+          <span class="comments">
+            <a href="<%- item.permalink %>#disqus_thread">Comments</a>
+          </span>
+          <% } %>
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="<%- config.root %><%- item.path %>" itemprop="url">
+            <%= item.title %></a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          <% if (item.excerpt){ %>
+            <%- item.excerpt %>
+            <a href="<%- config.root %><%- item.path %>" class="more-link">
+              <%= theme.excerpt_link %>
+            </a>
+          <% } else { %>
+            <%- item.content %>
+          <% } %>
+        </div>
+<% } else { %>
+	<div class="meta">
+          <%- partial('post/date', {type: "post"}) %>
+          <% if(theme.print) { %>
+          <%- partial('post/print', {type: "post"}) %>
+          <% } %>
+	</div>
+        <h1 class="title" itemprop="name"><%= item.title %></h1>
+      	<div class="entry-content" itemprop="articleBody"><%- item.content %></div>
+
+        <!-- Baidu Button BEGIN -->
+        <script type="text/javascript" id="bdshare_js" data="type=slide&amp;img=5&amp;mini=1&amp;pos=right&amp;uid=2626170" ></script>
+        <script type="text/javascript" id="bdshell_js"></script>
+        <script type="text/javascript">
+        document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000);
+        </script>
+        <!-- Baidu Button END -->
+<% } %>
+
+<%- partial('comment') %>
