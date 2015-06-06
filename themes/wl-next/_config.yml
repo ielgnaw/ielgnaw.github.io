@@ -31,7 +31,7 @@ icon_font: default
 # highlight_theme: night bright
 
 
-# MathJax Support
+# MathJax Support # ture
 mathjax:
 
 
