@@ -5,3 +5,9 @@ debug.log
 node_modules/
 public/
 .deploy/
+backup/
+scaffolds/
+source/
+themes/
+_config.yml/
+package.json/
