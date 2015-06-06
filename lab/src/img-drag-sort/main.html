@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>imgDragSort</title>
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <style type="text/css">
+        #img_container {
+            width: 480px;
+            height: 360px;
+            list-style-type: none;
+            display: block;
+        }
+
+        #img_container li {
+            float: left;
+            padding: 0 20px 20px 0;
+
+        }
+
+        #img_container li a {
+            /*position: relative;*/
+            display: block;
+            cursor: move;
+            width: 76px;
+            height: 76px;
+        }
+
+        #img_container img {
+            vertical-align: bottom;
+            border: 1px solid #DDD;
+            padding: 2px;
+        }
+
+        #separatorMarker {
+            height: 80px;
+            width: 6px;
+            position: absolute;
+            display: none;
+
+        }
+
+        #separatorMarkerLine {
+            width: 6px;
+            height: 75px;
+
+        }
+
+        #separatorMarker img {
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<ul id="img_container">
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/1.jpg" prop-name="img1" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/2.jpg" prop-name="img2" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/3.jpg" prop-name="img3" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/4.jpg" prop-name="img4" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/5.jpg" prop-name="img5" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/6.jpg" prop-name="img6" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/7.jpg" prop-name="img7" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/8.jpg" prop-name="img8" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/9.jpg" prop-name="img9" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/10.jpg" prop-name="img10" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/11.jpg" prop-name="img11" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/12.jpg" prop-name="img12" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/13.jpg" prop-name="img13" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/14.jpg" prop-name="img14" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/15.jpg" prop-name="img15" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/16.jpg" prop-name="img16" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/17.jpg" prop-name="img17" width="70" height="70">
+        </a>
+    </li>
+    <li>
+        <a href="javascript: void(0);" hidefocus="true" target="_blank" rel="external">
+            <img src="./img/18.jpg" prop-name="img18" width="70" height="70">
+        </a>
+    </li>
+</ul>
+<div id="separatorMarker">
+    <img src="./img/marker_top.gif">
+    <img src="./img/marker_middle.gif" id="separatorMarkerLine">
+    <img src="./img/marker_bottom.gif">
+</div>
+<script type="text/javascript" src="./main.js"></script>
+</body>
+</html>
