@@ -1,9 +1,0 @@
-#npc {
-    position: absolute;
-    left: 600px;
-    top: 200px;
-    border: solid red 0px;
-    height: 64px;
-    width: 48px;
-    background: url(zy.png) 2px 0;
-}
