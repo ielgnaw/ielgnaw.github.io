@@ -4,7 +4,7 @@
  */
 
 define(function (require) {
-    console.warn(34);
+    console.warn(3433);
     console.warn(require('jquery'));
     console.warn(require('underscore'));
 
