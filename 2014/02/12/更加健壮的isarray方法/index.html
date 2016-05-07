@@ -43,11 +43,11 @@
   </script>
 
 
-  <title> 归档 // ielgnaw </title>
+  <title> 更加健壮的isArray方法 // ielgnaw </title>
 </head>
 
 <body>
-  <div class="container one-column  page-archive ">
+  <div class="container one-column page-post-detail">
     <a href="https://github.com/ielgnaw"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
     <div class="headband"></div>
 
@@ -111,121 +111,164 @@
         <div id="content" class="content">
           
 
-  <div id="posts" class="posts-collapse">
-    <!-- 嗯..! 目前共计 5 篇日志。 继续努力。
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-       
-      
-      嗯..! 目前共计 8 篇文章。 继续努力。
-    </span>-->
-
+  <div id="posts" class="posts-expand">
     
 
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
       
+      
+        <h1 class="post-title">
+          
+          
+            
+              更加健壮的isArray方法
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-02-12
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/02/12/更加健壮的isarray方法/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/12/更加健壮的isarray方法/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
       
       
 
       
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2015">2015</h2>
+        <p>在实际项目开发过程中，我们经常会遇到检测一个对象是否是数组的情况，这里会有一些坑，现在来说一说。</p>
+<p>javascript中，检测对象类型有下面这么几种方法：<br><a id="more"></a></p>
+<p><strong>1. typeof</strong></p>
+<pre class="prettyprint">
+typeof function () {};    // 'function'
+typeof 'hello';    // 'string'
+typeof 123;    // 'number'
+typeof undefined;    // 'undefined'
+typeof null;    // 'object'
+typeof {};    // 'object'
+typeof [];    // 'object'
+</pre>
+
+<p>可以看到，<code>typeof</code>在检测Array类型时无能为力……</p>
+<p><strong>2. instanceof</strong></p>
+<p><code>instanceof</code>作符检测对象的原型链是否指向构造函数的prototype对象。于是我们可以这样检测：</p>
+<pre class="prettyprint">
+[] instanceof Array;    // true
+</pre>
+
+
+<p><strong>3. constructor属性</strong></p>
+<pre class="prettyprint">
+[].constructor === Array;    // true
+</pre>
+
+<p><code>instanceof</code>和<code>constructor</code>看起来是可以的，但是我们看下面这个例子：</p>
+<pre class="prettyprint">
+var iframe = document.createElement('iframe');
+iframe.name = 'myFrame';
+iframe.id = 'myFrame';
+document.body.appendChild(iframe);
+var frameObj = document.getElementById('myFrame');
+var myArray = frameObj.contentWindow.Array;
+var arr = new myArray(1, 2, 3);
+arr instanceof Array;    // false
+arr.constructor === Array;    // false
+</pre>
+
+<p>这是由于每个iframe都有一套自己的执行环境，跨frame实例化的对象彼此之间是不会共享原型链的。</p>
+<p>肿么办，可以看看各大类库的实现：</p>
+<p><a href="https://github.com/jashkenas/underscore/blob/master/underscore.js#L1016" target="_blank" rel="external"><strong>underscore的实现</strong></a></p>
+<pre class="prettyprint">
+_.isArray = nativeIsArray || function(obj) {
+    return toString.call(obj) == '[object Array]';
+};
+</pre>
+
+<p><a href="https://github.com/lodash/lodash/blob/master/lodash.js#L5859" target="_blank" rel="external"><strong>lodash的实现</strong></a></p>
+<pre class="prettyprint">
+var isArray = nativeIsArray || function(value) {
+    return
+        value
+        &&
+        typeof value == 'object'
+        &&
+        typeof value.length == 'number'
+        &&
+        toString.call(value) == arrayClass || false;
+};
+</pre>
+
+<p>从上面列举的两个类库可以看出，基本的套路就是返回待检测的对象的<code>toString()</code>，判断结果是否是<code>[object Array]</code>，如果是，则说明此对象是Array的实例，否则不是。<br>原理在此：<a href="http://bclary.com/2004/11/07/#a-15.2.4.2" target="_blank" rel="external">ECMA-262-3 15.2.4.2</a>。<br>当<code>Object.prototype.toString</code>被调用时，采用如下步骤：</p>
+<ol>
+<li>获取[[Class]] 内部属性的值</li>
+<li>计算把这三个字符串<code>&#39;[object &#39;</code>, <code>第1步的结果</code>, <code>&#39;]&#39;</code>  连在一起的字符串值</li>
+<li>返回<code>第2步的结果</code>。</li>
+</ol>
+<p>因此，不用任何类库的话，检测数组时，我们可以用如下方法：</p>
+<pre class="prettyprint">
+var isArray = Array.isArray || function (obj) {
+    return Object.prototype.toString.call(obj) == '[object Array]';
+}
+</pre>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/02/24/正则表达式学习（二）/">正则表达式学习（二）</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/12/09/如何更新nodejs/">如何更新nodejs</a>
+            
+          </div>
         </div>
       
-      
 
       
-
-  <div class="post post-type-normal">
-    <div class="post-header">
-
-      <div class="post-title">
-        
-            <a class="post-title-link" href="/2015/05/10/setTimeout-和-setInterval-的区别/">
-              setTimeout 和 setInterval 的区别
-            </a>
-        
-      </div>
-
-      <div class="post-meta">
-        <span class="post-time"> 05-10 </span>
-      </div>
-
+      
     </div>
   </div>
 
 
 
     
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <div class="post post-type-normal">
-    <div class="post-header">
-
-      <div class="post-title">
+      <div class="comments" id="comments">
         
-            <a class="post-title-link" href="/2015/05/08/LazyMan/">
-              LazyMan
-            </a>
+          <div class="ds-thread" data-thread-key="2014/02/12/更加健壮的isarray方法/"
+               data-title="更加健壮的isArray方法" data-url="http://ielgnaw.github.io/2014/02/12/更加健壮的isarray方法/">
+          </div>
         
       </div>
-
-      <div class="post-meta">
-        <span class="post-time"> 05-07 </span>
-      </div>
-
-    </div>
-  </div>
-
-
-
     
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <div class="post post-type-normal">
-    <div class="post-header">
-
-      <div class="post-title">
-        
-            <a class="post-title-link" href="/2015/05/03/【翻译】为什么要使用基于时间的动画以及如何实现它/">
-              【翻译】为什么要使用基于时间的动画以及如何实现它
-            </a>
-        
-      </div>
-
-      <div class="post-meta">
-        <span class="post-time"> 05-03 </span>
-      </div>
-
-    </div>
   </div>
-
-
-
-    
-
-  </div>
-
-  
 
 
         </div>
@@ -244,6 +287,15 @@
   <div id="sidebar" class="sidebar">
     <div class="sidebar-inner">
 
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
       
 
       <div class="site-overview">
@@ -300,6 +352,17 @@
       </div>
 
       
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
 
     </div>
   </div>
@@ -336,12 +399,6 @@
 
   
   
-  
-    <script type="text/javascript">
-      postMotionOptions = {stagger: 100, drag: true};
-    </script>
-  
-
 
   
   <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
@@ -531,15 +588,351 @@
 
   
   
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
 
 
   
 
   
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ielgnaw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
 
   
 

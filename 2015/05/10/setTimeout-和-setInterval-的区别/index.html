@@ -43,11 +43,11 @@
   </script>
 
 
-  <title> 归档 // ielgnaw </title>
+  <title> setTimeout 和 setInterval 的区别 // ielgnaw </title>
 </head>
 
 <body>
-  <div class="container one-column  page-archive ">
+  <div class="container one-column page-post-detail">
     <a href="https://github.com/ielgnaw"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
     <div class="headband"></div>
 
@@ -111,121 +111,244 @@
         <div id="content" class="content">
           
 
-  <div id="posts" class="posts-collapse">
-    <!-- 嗯..! 目前共计 5 篇日志。 继续努力。
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-       
-      
-      嗯..! 目前共计 8 篇文章。 继续努力。
-    </span>-->
-
+  <div id="posts" class="posts-expand">
     
 
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
       
+      
+        <h1 class="post-title">
+          
+          
+            
+              setTimeout 和 setInterval 的区别
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-05-10
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/05/10/setTimeout-和-setInterval-的区别/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/10/setTimeout-和-setInterval-的区别/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
       
       
 
       
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2015">2015</h2>
+        <p>setTimeout 和 setInterval 是 js 中延迟执行的两个方法，这两个方法大家经常会用到，下面我们来详细说说这两个方法。</p>
+<p>####定义</p>
+<p>先来看看定义，MDN 对这两个方法给出的定义如下：</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout" target="_blank" rel="external">setTimeout</a>: Calls a function or executes a code snippet after a specified delay.</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setInterval" target="_blank" rel="external">setInterval</a>: Calls a function or executes a code snippet repeatedly, with a fixed time delay between each call to that function. Returns an intervalID.</p>
+<p>从定义中我们可以看出基本区别，<code>setTimeout</code> 在指定的时间 <code>delay</code> 后，执行一次；而<code>setInterval</code> 是每隔 <code>delay</code> 时间后就执行一次。</p>
+<p>这两个方法对应的清除延迟的方法分别是 <code>clearTimeout</code> 和 <code>clearInterval</code></p>
+<a id="more"></a>
+<p>####语法</p>
+<pre class="prettyprint">
+// setTimeout
+var timeoutID = window.setTimeout(func, [delay, param1, param2, ...]);
+var timeoutID = window.setTimeout(code, [delay]);
+// timeoutID: setTimeout 返回的标识，用来 clearTimeout
+// func: 要执行的函数
+// code: 字符串，表示要执行的代码（不推荐，同 eval()）
+// [param1, param2, ...]: 可选的参数列表，IE9 以下不支持
+
+// setInterval
+var intervalID = window.setInterval(func, delay[, param1, param2, ...]);
+var intervalID = window.setInterval(code, delay);
+// intervalID: setInterval 返回的标识，用来 clearInterval
+// func: 要执行的函数
+// code: 字符串，表示要执行的代码（不推荐，同 eval()）
+// [param1, param2, ...]: 可选的参数列表，IE9 以下不支持
+</pre>
+
+<p>####区别</p>
+<p>表面来看，<code>setTimeout</code> 和 <code>setInterval</code> 之间的区别就是：<code>setTimeout</code> 在 <code>delay</code> 时间后只执行一次，而 <code>setInterval</code> 会间隔 <code>delay</code>  时间重复执行，直到被清除。<br>如果想要 <code>setTimeout</code> 重复执行的话，只需要在函数内延时调用自己即可，所以一般来说，能用 <code>setInterval</code> 的地方就能用 <code>setTimeout</code> 代替。</p>
+<p>基本区别:</p>
+<pre class="prettyprint">
+// 大约 1000ms 后输出: during: 1003, hehe 
+// during 的数字可能会有偏差，但都是 1000 多一点，不会少于 1000
+var start = Date.now();
+setTimeout(function () {
+    var end = Date.now();
+    console.log('during: %s, %s', end - start, 'hehe');
+}, 1000);
+</pre>
+
+<pre class="prettyprint">
+// 大约 1000ms 后开始输出: 
+// during: 1003, hehe 
+// during: 2011, hehe 
+// during: 3016, hehe 
+// during: 4022, hehe 
+// ...
+// during 的数字可能会有偏差，但每次都是增加 1000 多一点
+var start = Date.now();
+setInterval(function () {
+    var end = Date.now();
+    console.error('during: %s, %s', end - start, 'hehe');
+}, 1000);
+</pre>
+
+<p>上面两段代码比较简单，我们再来看看下面这段代码：</p>
+<pre class="prettyprint">
+/**
+ * 辅助方法，实现一个简单的 sleep 
+ *
+ * @param {number} ms 毫秒数
+ */
+function sleep(ms) {
+    var start = Date.now();
+    while (true) {
+        if ((Date.now() - start) > ms) {
+            return;
+        }
+    }
+}
+
+var start = Date.now();
+setTimeout(function () {
+    sleep(2000);
+    var end = Date.now();
+    console.log('during: %s, %s', end - start, 'hehe');
+    setTimeout(arguments.callee, 1000);
+}, 1000);
+
+var start = Date.now();
+setInterval(function () {
+    sleep(2000);
+    var end = Date.now();
+    console.log('during: %s, %s', end - start, 'hehe');
+}, 1000);
+</pre>
+
+<p>初看上去，这两段代码在功能上貌似是相同的，但实际运行一下就知道并非如此：</p>
+<p><code>setTimeout</code> 的时间间隔是 1000ms，但是要执行的方法需要执行 2000ms，输出如下: </p>
+<pre><code>// 时间间隔是 3000ms
+during: 3005, hehe
+during: 6011, hehe
+during: 9017, hehe
+during: 12021, hehe
+during: 15026, hehe
+during: 18027, hehe
+...
+</code></pre><p>同样，<code>setInterval</code> 的时间间隔也是是 1ms，要执行的方法同样需要执行 2000ms，输出如下: </p>
+<pre><code>// 时间间隔是 2000ms
+during: 3006, hehe
+during: 5007, hehe
+during: 7008, hehe
+during: 9009, hehe
+during: 11010, hehe
+during: 13011, hehe
+...
+</code></pre><p>我们再来修改一下代码，把上述代码中的 <code>sleep(2000)</code> 改为 <code>sleep(500)</code> 即让代码执行的时间小于 <code>setTimeout</code> 和 <code>setInterval</code> 时间间隔，再来看看，</p>
+<p><code>setTimeout</code> 的输出： </p>
+<pre><code>// 时间间隔是 1500ms
+during: 1504, hehe
+during: 3008, hehe
+during: 4514, hehe
+during: 6020, hehe
+during: 7525, hehe
+during: 9028, hehe
+...
+</code></pre><p><code>setInterval</code> 的输出：</p>
+<pre><code>// 时间间隔是 1000ms
+during: 1503, hehe
+during: 2505, hehe
+during: 3508, hehe
+during: 4513, hehe
+during: 5515, hehe
+during: 6516, hehe
+...
+</code></pre><p>由以上两个例子，可以看出：</p>
+<p><strong><code>setTimeout</code> 里的代码无论需要执行多长时间，在前一次的回调执行完成之后，至少会延迟 1000ms（setTimeout 方法的第二个参数），有可能会有误差，但一定会更多，不会更少。</strong></p>
+<p><strong><code>setInterval</code> 里的代码无论需要执行多长时间，总是在每 1000ms（setInterval 方法的第二个参数） 的时候尝试去执行回调函数，有可能会有误差，但一定会更多，不会更少，不会关心前一次回调什么时候执行以及是否执行完毕。如果到达 1000ms 的时候，前一次回调函数还未执行完，那么会继续接着执行前一次回调函数，这一次的回调函数实际上就不会执行了。等前一次回调执行完成并且时间又一次到达下一个 1000ms 的时候，就会再次执行回调函数。</strong></p>
+<p>####延伸</p>
+<p>从上面我们可以看出，js 的定时器的延时是没有保证的。这是因为浏览器中执行的所有的 js 都是单线程的（定时器、dom 事件触发等等），在执行过程中只有 js 引擎线程空闲的时候才会执行。<br>引用 jQuery 作者<a href="http://ejohn.org/blog/how-javascript-timers-work/" target="_blank" rel="external">一篇文章</a>的一幅图</p>
+<p><img src="/posts-asset/setTimeout-setInterval/timers.png" alt="Timers"></p>
+<p>这幅图应该很熟悉了：垂直表示时间，按毫秒计算。蓝色的盒子表示正在执行的 js。如第一个 js 块执行的时间大约为 18ms，鼠标点击块执行的时间大约为 11ms 等等。</p>
+<p>上面我们说过，js 是单线程的，因此在某一时刻只能执行一段代码，这段代码在被执行的时候会阻塞其他事件的执行。这就说明，当一个事件发生的时候，例如 dom 事件、定时器触发等，js 引擎会把事件放入一个队列中，排队等待执行。</p>
+<p>我们按时间顺序解释上面那幅图</p>
+<p>1、当代码执行到大约 3ms 时，调用了一个延时为 10ms 的 setTimeout，假设这个 setTimeout 要延时执行的方法是 timeoutFunc。</p>
+<p>2、当代码执行到大约 7ms 时，发生了鼠标点击的事件，正常来说，发生点击事件，那么绑定的点击事件回调函数 clickFunc 就要被执行了，但是由于第一个 js 代码块还未执行完，由于 js 是单线程的，所以这个回调函数被加入事件处理队列等待执行。</p>
+<p>3、当代码执行到大约 10ms 时，调用了一个延时 10ms 的 setInterval，假设这个 setInterval 执行的是 intervalFunc1。</p>
+<p>4、当代码执行到大约 13ms 时，我们在第一步（3ms）里调用那个 setTimeout 到延时了，这个时候按照正常情况，我们应该执行 timeoutFunc 了。但是由于第一个 js 代码块还未执行完，因此浏览器把延时事件 timeoutFunc 放入事件处理队列了，这个时候事件处理队列里面有两个值了（clickFunc 和 timeoutFunc）。</p>
+<p>5、当代码执行到大约 18ms 时，第一个 js 代码块终于执行完了。这个时候，js 线程空闲了，于是去事件处理队列里面找自己该执行的事件了，根据顺序，这个时候应该执行我们在第二步（7ms）放入事件处理队列的那个点击事件的回调函数（clickFunc）。于是就开始执行鼠标点击事件的回调，这个时候事件处理队列里面只剩下我们在第四步（13ms）放入的延时事件 timeoutFunc。</p>
+<p>6、当代码执行到大约 20ms 时，这个时候第三步（10ms）放入的 intervalFunc1 也到要执行的时间了，但是这个时候，浏览器还在执行 clickFunc，因此 intervalFunc1 也被放入到事件处理队列，这个时候事件处理队列里面的值为 timeoutFunc 和 intervalFunc1。</p>
+<p>7、当代码执行到大约 29ms 时，clickFunc 执行完毕。js 线程继续去事件处理队列里面找自己该执行的事件，这个时候事件处理队列里面排在第一位的时候 timeoutFunc，因此 js 线程开始执行 timeoutFunc 了。这个时候事件处理队列里面执行只剩下 intervalFunc1 了。</p>
+<p>8、当代码执行到大约 30ms 时，我们在第三步（10ms）里面的 setInterval 又一次触发了，假设这次触发的事件叫做 intervalFunc2。但是由于这个时候 js 线程在执行 timeoutFunc，因此需要把 intervalFunc2 也放入到事件处理队列。这个时候，浏览器发现事件处理队列中已经存在 intervalFunc2 的兄弟 intervalFunc1 了，这个时候，浏览器的做法是抛弃掉 intervalFunc2。<strong>对于每一个 setInterval，事件处理队列中只能存在一个回调事件</strong>。</p>
+<p>9、当代码执行到 36ms 时，timeoutFunc 执行完毕，这个时候，js 线程在事件处理队列中发现 intervalFunc1，因此就去执行 intervalFunc1 了。同时，事件处理队列已经空了。</p>
+<p>10、当代码执行到 40ms 时，我们在第三步（10ms）里面的 setInterval 又一次触发了，这次的事件叫做 intervalFunc3，intervalFunc3 被加入到事件处理队列中。</p>
+<p>11、当代码执行到 41ms 时，js 线程开始处理 intervalFunc3 了；46ms 时，intervalFunc3 处理完毕，事件处理队列中也是空的，js 线程终于休息了；第 50ms 时，由于 js 线程已经在休息了，因此直接就执行我们在第三步（10ms）里面的 setInterval 所触发的事件 intervalFunc4。再往后，只要浏览器没有其他的事件发生的话，就会每隔 10ms 去处理一次 intervalFunc….</p>
+<p>我们得到如下几个结论：</p>
+<ol>
+<li>js 引擎只有一个线程，这使得异步事件必需列队等待执行。(JavaScript engines only have a single thread, forcing asynchronous events to queue waiting for execution.)</li>
+<li>setTimeout 和 setInterval 在他们如何执行异步代码上有着本质地区别。(setTimeout and setInterval are fundamentally different in how they execute asynchronous code.)</li>
+<li>如果一个 timer 在将要执行的时候被阻塞，那么他会被推迟到下一个可能的执行点（会超过所需的延时）(If a timer is blocked from immediately executing it will be delayed until the next possible point of execution (which will be longer than the desired delay).)</li>
+<li>如果 interval 的执行时间比指定的延时（delay）要长，那么它们将会连续的执行，就像没有延时一样(Intervals may execute back-to-back with no delay if they take long enough to execute (longer than the specified delay).)</li>
+<li>setTimeout 和 setInterval 触发时，如果 js 线程不空闲，那么都得去排队等待执行。区别是，setTimeout 只需排一次队，setInterval 则要按照设置的间隔时间，每个时间点都去排一下。当 setInterval 去排队时，如果发现自己还在队列中未执行，则会被浏览器抛弃。即对于每一个 setInterval，浏览器的事件处理队列中只能存在一个回调事件。</li>
+<li>由于队列的存在，setTimeout 和 setInterval 第一次触发时的时间，只会大于等于设置的间隔时间，不可能小于。</li>
+<li>对于 setInterval 来说，如果执行时间大于设置的间隔时间，很可能导致连续执行，中间没有时间间隔，很可能会耗费大量 cpu。</li>
+</ol>
+<p>####参考<br><a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout</a><br><a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setInterval" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setInterval</a><br><a href="http://ejohn.org/blog/how-javascript-timers-work/" target="_blank" rel="external">http://ejohn.org/blog/how-javascript-timers-work/</a><br><a href="http://www.laruence.com/2009/09/23/1089.html" target="_blank" rel="external">http://www.laruence.com/2009/09/23/1089.html</a><br><a href="http://www.cnblogs.com/youxin/p/3354924.html" target="_blank" rel="external">http://www.cnblogs.com/youxin/p/3354924.html</a><br><a href="http://www.zhihu.com/question/20866267" target="_blank" rel="external">http://www.zhihu.com/question/20866267</a></p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/05/08/LazyMan/">LazyMan</a>
+            
+          </div>
         </div>
       
-      
 
       
-
-  <div class="post post-type-normal">
-    <div class="post-header">
-
-      <div class="post-title">
-        
-            <a class="post-title-link" href="/2015/05/10/setTimeout-和-setInterval-的区别/">
-              setTimeout 和 setInterval 的区别
-            </a>
-        
-      </div>
-
-      <div class="post-meta">
-        <span class="post-time"> 05-10 </span>
-      </div>
-
+      
     </div>
   </div>
 
 
 
     
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <div class="post post-type-normal">
-    <div class="post-header">
-
-      <div class="post-title">
+      <div class="comments" id="comments">
         
-            <a class="post-title-link" href="/2015/05/08/LazyMan/">
-              LazyMan
-            </a>
+          <div class="ds-thread" data-thread-key="2015/05/10/setTimeout-和-setInterval-的区别/"
+               data-title="setTimeout 和 setInterval 的区别" data-url="http://ielgnaw.github.io/2015/05/10/setTimeout-和-setInterval-的区别/">
+          </div>
         
       </div>
-
-      <div class="post-meta">
-        <span class="post-time"> 05-07 </span>
-      </div>
-
-    </div>
-  </div>
-
-
-
     
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <div class="post post-type-normal">
-    <div class="post-header">
-
-      <div class="post-title">
-        
-            <a class="post-title-link" href="/2015/05/03/【翻译】为什么要使用基于时间的动画以及如何实现它/">
-              【翻译】为什么要使用基于时间的动画以及如何实现它
-            </a>
-        
-      </div>
-
-      <div class="post-meta">
-        <span class="post-time"> 05-03 </span>
-      </div>
-
-    </div>
   </div>
-
-
-
-    
-
-  </div>
-
-  
 
 
         </div>
@@ -244,6 +367,15 @@
   <div id="sidebar" class="sidebar">
     <div class="sidebar-inner">
 
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
       
 
       <div class="site-overview">
@@ -300,6 +432,17 @@
       </div>
 
       
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
 
     </div>
   </div>
@@ -336,12 +479,6 @@
 
   
   
-  
-    <script type="text/javascript">
-      postMotionOptions = {stagger: 100, drag: true};
-    </script>
-  
-
 
   
   <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
@@ -531,15 +668,351 @@
 
   
   
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
 
 
   
 
   
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ielgnaw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
 
   
 

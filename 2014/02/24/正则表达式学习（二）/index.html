@@ -43,11 +43,11 @@
   </script>
 
 
-  <title> 归档 // ielgnaw </title>
+  <title> 正则表达式学习（二） // ielgnaw </title>
 </head>
 
 <body>
-  <div class="container one-column  page-archive ">
+  <div class="container one-column page-post-detail">
     <a href="https://github.com/ielgnaw"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
     <div class="headband"></div>
 
@@ -111,121 +111,260 @@
         <div id="content" class="content">
           
 
-  <div id="posts" class="posts-collapse">
-    <!-- 嗯..! 目前共计 5 篇日志。 继续努力。
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-       
-      
-      嗯..! 目前共计 8 篇文章。 继续努力。
-    </span>-->
-
+  <div id="posts" class="posts-expand">
     
 
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
       
+      
+        <h1 class="post-title">
+          
+          
+            
+              正则表达式学习（二）
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-02-24
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/02/24/正则表达式学习（二）/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/24/正则表达式学习（二）/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
       
       
 
       
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2015">2015</h2>
+        <p><a href="http://ielgnaw.github.io/2013/12/07/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0/">上一篇文章</a>简单介绍一下正则表达式的一些常见的元字符以及一些特性，这篇文章介绍一下正则表达式在js里的一些方法。</p>
+<p><strong>在源代码中使用字面正则表达式</strong></p>
+<pre class="prettyprint">
+// 该正则表达式包含单个的字符类，
+// 会匹配一个美元符号、一个双引号、一个单引号、一个换行符、0~9的任意数字、一个正斜杠或者一个反斜杠。
+// 这个正则表达式硬编码到源代码中。
+var reg = /[$"'\n\d\/\\]/;
+</pre>
+
+
+<p>在js中，创建正则表达式的最好方式是使用字面正则表达式的特殊语法。可以简单把正则表达式放在两个正斜杠之间。<br><a id="more"></a></p>
+<hr>
+<p><strong>创建正则表达式对象</strong></p>
+<pre class="prettyprint">
+// 字面正则表达式
+var reg = /[$"'\n\d\/\\]/;
+
+// 正则表达式对象
+var regStr = '[$"\'\\n\\d\\/\\\\]';
+var reg = new RegExp(regStr);
+</pre>
+
+<p>如果有一个正则表达式存在一个字符串变量中，那么可以用<code>RegExp()</code>构造函数来编译这个正则表达式。注意在字符串之内的正则表达式并没有使用正斜杠来分隔。这些斜杠是属于js为字面的RegExp对象使用的记法，而不属于正则表达式的一部分。</p>
+<hr>
+<p><strong>检查是否可以在目标字符串中找到匹配</strong></p>
+<pre class="prettyprint">
+if (/regex pattern/.test(str)) {
+    // match success
+}
+else {
+    // match failed
+}
+</pre>
+
+<p><code>test()</code>方法，如果改正则表达式会匹配目标字符串的一部分或者全部，那么regexp.test()就会返回true，否则返回false。</p>
+<hr>
+<p><strong>检查正则表达式能否整个匹配目标字符串</strong></p>
+<pre class="prettyprint">
+if (/^regex pattern$/.test(str)) {
+    // match success
+}
+else {
+    // match failed
+}
+</pre>
+
+<p>js并不包含一个函数可以用来检查一个正则表达式是否能够整体匹配一个字符串。解决方案是<code>^</code>添加到正则表达式开头，<code>$</code>加到正则表达式结尾，注意不要为正则表达式设置<code>m</code>标志。只有在不使用<code>m</code>标志的情况下，<code>^</code>和<code>$</code>才能只匹配文本的开头和结尾。如果设置了<code>m</code>标志，它们还会匹配字符串中间的换行符。</p>
+<hr>
+<p><strong>获取匹配文本</strong></p>
+<pre class="prettyprint">
+var str = 'This number is 12 and 123';
+var result = str.match(/\d+/g);
+if (result) {
+    console.log(result);
+}
+else {
+    // match failed
+}
+</pre>
+
+<p><code>string.match()</code>方法接收一个正则表达式作为参数。这个参数可以使用字面正则表达式、正则表达式对象或者一个字符串。如果参数是字符串，那么此方法会创建一个临时的regexp对象。当匹配失败的时候，此方法会返回null。当匹配成功时，会返回一个包含匹配细节的数组。</p>
+<hr>
+<p><strong>获取匹配的位置和长度</strong></p>
+<pre class="prettyprint">
+var start = -1;
+var length = -1;
+var str = 'This number is 12 and 123';
+var match = /\d+/.exec(str);
+if (match) {
+    start = match.index;
+    length = match[0].length;
+    console.log(match, start, length);
+}
+</pre>
+
+<p>使用一个regexp对象调用<code>exec()</code>方法，可以得到一个关于匹配详细信息的数组。这个数组包含几个属性，index属性保存正则匹配在目标字符串中的开始位置。如果匹配是从字符串的开头开始，那么index值为0。数组中的0号元素保存的是整个正则匹配的一个字符串。使用这个字符串的length属性，可以知道匹配的长度。如果正则表达式不能匹配此字符串，则<code>exec()</code>方法返回null。<br><strong>注意</strong>：不要使用<code>exec()</code>方法返回数组中的<code>lastIndex</code>属性来确定最终匹配的位置。在一个严格的js实现中，<code>lastIndex</code>属性根本不会在返回的数组中出现而只会出现在regexp对象中。同样的，也不应该使用regexp.lastIndex，因为不同浏览器的区别，它也是不可靠的。正确的做法是，把<code>match.index</code>与<code>match[0].length</code>加起来来确定正则匹配的结束位置。</p>
+<hr>
+<p><strong>获取匹配文本的一部分</strong></p>
+<pre class="prettyprint">
+var str = 'http://tieba.baidu.com/p/2886801533';
+var match = /http:\/\/[\w.-]+/.exec(str);
+if (match) {
+    console.log(match[0]);
+}
+</pre>
+
+<hr>
+<p><strong>获取所有匹配的列表</strong></p>
+<pre class="prettyprint">
+var str = 'The number is 12, 13, 14, 15, 16';
+var list = str.match(/\d+/g);
+console.log(list);
+</pre>
+
+<hr>
+<p><strong>替换所有匹配</strong></p>
+<pre class="prettyprint">
+var str = 'The str is aaa, bbb, ccc, aaa, ddd';
+var result = str.replace(/aaa/g, 'xxx');
+console.log(result);
+</pre>
+
+<hr>
+<p><strong>使用匹配的子串来替换匹配</strong></p>
+<p>例如，要匹配由等号分隔的单词对，然后把等号两边的单词互换。</p>
+<pre class="prettyprint">
+var str = 'aaa=bbb';
+var result = str.replace(/(\w+)=(\w+)/g, '$2=$1');
+console.log(result);
+</pre>
+
+<hr>
+<p><strong>使用代码中生成的替换文本来替换匹配</strong></p>
+<pre class="prettyprint">
+var str = 'The number is 12, 13, 14, 15, 16';
+var result = str.replace(/\d+/g, function (match) {
+    return match * 2;
+});
+console.log(result);
+</pre>
+
+<hr>
+<p><strong>替换另一个正则式匹配中的所有匹配</strong></p>
+<pre class="prettyprint">
+// 把下列字符串中被<b\>包围的before换为after
+var str = 'before &ltb&gtfirst before&lt/b&gt before &ltb&gtbefore before&lt/b&gt';
+var reg = /&ltb&gt.*?<\ b="">/g;
+var result = str.replace(reg, function (match) {
+    return match.replace(/before/g, 'after');
+});
+</\></b\></pre>
+
+<hr>
+<p><strong>拆分字符串</strong></p>
+<pre class="prettyprint">
+// 使用html tag来拆分一个包含html tag的字符串，返回一个不包含html tag的字符串数组
+var str = 'I like &ltb&gtbold&lt/b&gt and &lti&gtitalic&lt/i&gt fonts';
+var result = str.split(/<[^<>]*>/);
+console.log(result);
+// 使用split会有一些跨浏览器的问题，因此推荐正则的方式：
+var list = [];
+var reg = /<[^<>]*>/g;
+var match = null;
+var lastIndex = 0;
+while (match = reg.exec(str)) {
+    if (match.index === reg.lastIndex) {
+        reg.lastIndex++;
+    }
+    list.push(str.substring(lastIndex, match.index));
+    lastIndex = match.index + match[0].length;
+}
+list.push(str.substring(lastIndex));
+console.log(list);
+</[^<></[^<></pre>
+
+<hr>
+<p><strong>逐行查找</strong></p>
+<pre class="prettyprint">
+// 如果有一个多行字符串，那么首先要把它拆分成一个字符串数组，该数组中的每个字符串都包含一行文本。
+var lines = str.split(/\r?\n/);
+var reg = /regex pattern/;
+for (var i = 0, len = line.length; i < len; i++) {
+    if (lines[i].match(reg)) {
+        // match sucess
+    }
+    else {
+        // match failed
+    }
+}
+</pre>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/05/03/【翻译】为什么要使用基于时间的动画以及如何实现它/">【翻译】为什么要使用基于时间的动画以及如何实现它</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/02/12/更加健壮的isarray方法/">更加健壮的isArray方法</a>
+            
+          </div>
         </div>
       
-      
 
       
-
-  <div class="post post-type-normal">
-    <div class="post-header">
-
-      <div class="post-title">
-        
-            <a class="post-title-link" href="/2015/05/10/setTimeout-和-setInterval-的区别/">
-              setTimeout 和 setInterval 的区别
-            </a>
-        
-      </div>
-
-      <div class="post-meta">
-        <span class="post-time"> 05-10 </span>
-      </div>
-
+      
     </div>
   </div>
 
 
 
     
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <div class="post post-type-normal">
-    <div class="post-header">
-
-      <div class="post-title">
+      <div class="comments" id="comments">
         
-            <a class="post-title-link" href="/2015/05/08/LazyMan/">
-              LazyMan
-            </a>
+          <div class="ds-thread" data-thread-key="2014/02/24/正则表达式学习（二）/"
+               data-title="正则表达式学习（二）" data-url="http://ielgnaw.github.io/2014/02/24/正则表达式学习（二）/">
+          </div>
         
       </div>
-
-      <div class="post-meta">
-        <span class="post-time"> 05-07 </span>
-      </div>
-
-    </div>
-  </div>
-
-
-
     
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <div class="post post-type-normal">
-    <div class="post-header">
-
-      <div class="post-title">
-        
-            <a class="post-title-link" href="/2015/05/03/【翻译】为什么要使用基于时间的动画以及如何实现它/">
-              【翻译】为什么要使用基于时间的动画以及如何实现它
-            </a>
-        
-      </div>
-
-      <div class="post-meta">
-        <span class="post-time"> 05-03 </span>
-      </div>
-
-    </div>
   </div>
-
-
-
-    
-
-  </div>
-
-  
 
 
         </div>
@@ -244,6 +383,15 @@
   <div id="sidebar" class="sidebar">
     <div class="sidebar-inner">
 
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
       
 
       <div class="site-overview">
@@ -300,6 +448,17 @@
       </div>
 
       
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
 
     </div>
   </div>
@@ -336,12 +495,6 @@
 
   
   
-  
-    <script type="text/javascript">
-      postMotionOptions = {stagger: 100, drag: true};
-    </script>
-  
-
 
   
   <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
@@ -531,15 +684,351 @@
 
   
   
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
 
 
   
 
   
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ielgnaw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
 
   
 
