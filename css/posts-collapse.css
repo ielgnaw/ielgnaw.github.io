@@ -11,7 +11,7 @@
 }
 .posts-collapse {
   position: relative;
-  margin-left: 55px;
+  margin-left: $posts-collpase-left;
 }
 .posts-collapse::after {
   top: 20px;
@@ -19,8 +19,8 @@
   margin-left: -2px;
   width: 4px;
   height: 100%;
-  background: #f5f5f5;
-  z-index: -1;
+  background: $whitesmoke;
+  z-index: $zindex-bottom;
 }
 .posts-collapse .archive-move-on {
   position: absolute;
@@ -40,13 +40,13 @@
 }
 .posts-collapse .collection-title {
   position: relative;
-  margin: 60px 0;
+  margin: 50px 0;
 }
 .posts-collapse .collection-title h2 {
   margin-left: 20px;
 }
 .posts-collapse .collection-title small {
-  color: #bbb;
+  color: $grey;
 }
 .posts-collapse .collection-title::before {
   content: " ";
@@ -57,7 +57,7 @@
   margin-top: -4px;
   width: 8px;
   height: 8px;
-  background: #bbb;
+  background: $grey;
 }
 .posts-collapse .post {
   margin: 30px 0;
@@ -65,7 +65,7 @@
 .posts-collapse .post-header {
   position: relative;
   transition-property: border;
-  border-bottom: 1px dashed #ccc;
+  border-bottom: 1px dashed $grey-light;
 }
 .posts-collapse .post-header::before {
   content: " ";
@@ -75,15 +75,15 @@
   width: 6px;
   height: 6px;
   margin-left: -4px;
-  background: #bbb;
+  background: $grey;
   border: 1px solid #fff;
   transition-property: background;
 }
 .posts-collapse .post-header:hover {
-  border-bottom-color: #666;
+  border-bottom-color: $grey-dim;
 }
 .posts-collapse .post-header:hover::before {
-  background: #222;
+  background: $black-deep;
 }
 .posts-collapse .post-meta {
   position: absolute;
@@ -97,7 +97,7 @@
 .posts-collapse .post-title {
   margin-left: 60px;
   font-size: 16px;
-  font-weight: normal;
+  font-weight: 700;
   line-height: inherit;
 }
 .posts-collapse .post-title::after {
@@ -105,6 +105,6 @@
   opacity: 0.6;
 }
 .posts-collapse .post-title a {
-  color: #666;
+  color: $grey-dim;
   border-bottom: none;
 }

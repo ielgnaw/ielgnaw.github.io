@@ -61,6 +61,39 @@
   src: local('Source Sans Pro Light Italic'), local('SourceSansPro-LightIt'), url("../fonts/fpTVHK8qsXbIeTHTrnQH6KWfmYpLTwMIZXVESxMi2BP3rGVtsTkPsbDajuO5ueQw.woff2") format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
+.back-to-top {
+  position: fixed;
+  bottom: 19px;
+  right: 50px;
+  z-index: 1050;
+  width: 25px;
+  height: 23px;
+  padding: 5px;
+  background: #222;
+  color: #fff;
+  cursor: pointer;
+  -webkit-transform: translateZ(0);
+}
+@media (max-width: 767px) {
+  .back-to-top {
+    display: none;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .back-to-top {
+    display: none;
+  }
+}
+.back-to-top:before {
+  display: block;
+  content: " ";
+  margin-top: 2px;
+  width: 0;
+  height: 0;
+  border-width: 0 7px 8px 7px;
+  border-color: transparent transparent #fff transparent;
+  border-style: solid;
+}
 @media (max-width: 767px) {
   .posts-collapse {
     margin: 0 20px;
@@ -104,7 +137,7 @@
 }
 .posts-collapse .collection-title {
   position: relative;
-  margin: 60px 0;
+  margin: 50px 0;
 }
 .posts-collapse .collection-title h2 {
   margin-left: 20px;
@@ -169,7 +202,7 @@
 .posts-collapse .post-title {
   margin-left: 60px;
   font-size: 16px;
-  font-weight: normal;
+  font-weight: 700;
   line-height: inherit;
 }
 .posts-collapse .post-title::after {
