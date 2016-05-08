@@ -43,7 +43,7 @@
   </script>
 
 
-    <title> 【翻译】为什么要使用基于时间的动画以及如何实现它 // ielgnaw </title>
+    <title> 归档 // ielgnaw </title>
 </head>
 
 <body>
@@ -59,151 +59,238 @@
         <div class="content list">
             
 
-  <div id="posts" class="posts-expand">
+  <div id="posts" class="posts-collapse">
     
 
-<div class="list-item post">
+      
+      
+      
+
+      
+        
+        <div class="collection-title">
+          <h2 class="archive-year motion-element" id="archive-year-2013">2013</h2>
+        </div>
+      
+      
+
+      
+
+  <div class="post post-type-normal">
     <div class="post-header">
+
+      <div class="post-title">
         
-        
-            <h2 class="post-title list-post-title">
-                
-                
-                    
-                        【翻译】为什么要使用基于时间的动画以及如何实现它
-                    
-                
-            </h2>
-            <div class="list-post-date">
-                <!-- <time>09 Aug 2015</time> -->
-                <time>2015-05-03</time>
-
-                
-
-                
-                    
-                        <span class="post-comments-count">
-                            &nbsp; | &nbsp;
-                            <a href="/2015/05/03/【翻译】为什么要使用基于时间的动画以及如何实现它/#comments" >
-                                <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/03/【翻译】为什么要使用基于时间的动画以及如何实现它/"></span>
-                            </a>
-                        </span>
-                    
-                
-            </div>
-        
-    </div>
-
-    <div class="post-body">
-        
-        
-
-        
-            <p>原文地址: <a href="http://blog.sklambert.com/using-time-based-animation-implement" target="_blank" rel="external">http://blog.sklambert.com/using-time-based-animation-implement</a></p>
-<p>当我写<a href="http://blog.sklambert.com/galaxian-html5-game/" target="_blank" rel="external">这篇文章</a>的时候，我并不知道使用基于时间的动画的重要性。直到后来,有人告诉我我所使用的基于帧的动画会导致一些<a href="http://www.html5gamedevs.com/topic/2377-help-with-time-based-animation/?hl=animation" target="_blank" rel="external">问题</a>。</p>
-<p>我决定要学会这个基于时间的动画以及它为何如此重要。我在其他的游戏中见过几次，但是我还没有理解。 不用说了，我希望尽快的补救我的知识，赶紧学习为什么基于时间的动画是制作游戏的唯一方式。希望这篇文章将帮助你了解为什么基于帧的动画会出现一些问题以及基于时间的动画如何解决上述问题。</p>
-<a id="more"></a>
-<p>####基于帧的动画</p>
-<p>基于帧的动画就是使用帧速率来更新动画。举个例子，如果浏览器是 60FPS（即 60帧/秒），那么每秒钟，游戏会更新 60 次。这意味着，如果每次更新，方块都移动 2px，那么 1 秒后，方块移动了 120px。</p>
-<p>大多数的情况下，基于帧的动画运行得相当好。唯一的问题是，你必须要保证 FPS 永远不会改变（但这是完全不现实的）。如果帧率发生变化，更新的距离也会发生变化。</p>
-<p>回到那个方块的例子，如果我们只有 10FPS 而不是 60FPS 呢？那么方块每秒只会移动 20px 而不是 120px。这就是基于帧的动画存在的问题，完全依赖于帧速率。</p>
-<p>看到这里，我们来看看下面的例子。每个盒子都是基于帧的动画，它们的代码完全一样，唯一的区别就是它们的帧速率不一样。</p>
-<iframe style="margin: 0 auto; display: block;" src="/posts-asset/TimeBasedAnimation/frameBase.html" height="250" width="91%" frameborder="0"></iframe>
-
-<p>黑色的方块（设置为 60FPS）运行良好，但是红色的方块（设置为 10FPS）运行得十分缓慢。这是因为红色的方块每秒只更新 10 次，黑色的方块每秒更新 60 次。</p>
-<p>因此，如果我们想保持一致的更新而不受帧速率的影响，那我们就不能使用基于帧的动画。相反，我们必须为我们的更新使用一个帧独立的技术，这就是基于时间的动画。</p>
-<p>####基于时间的动画</p>
-<p>基于时间的动画就是由你使用的上一帧所经过的时间量来决定当前帧的更新量。这听起来可能有点复杂，但是如果你上过一些物理课程的话，你可能就已经熟悉这种方法了。</p>
-<p>下面这个方程用来更新实体的位置，<code>x = x<sub>0</sub> + vt + at<sup>2</sup></code>，这是一个基于时间的方程。它计算出经过多长时间以及在这段时间内，实体移动了多少距离。我们这里，基于时间的动画也是同样的方式。</p>
-<p>为了更新我们的方块的位置，我们将要使用方程<code>x = x + dx * dt</code>（在基于帧的动画里，我们用到的方程是<code>x = x + dx</code>）。在更新我们的方块之前，我们通过下面的代码来得出自上次更新到现在，经历了多少时间。</p>
-<pre class="prettyprint">
-last = new Date().getTime();
-function animationLoop() {
-    now = new Date().getTime();
-    dt = now - last;
-    last = now;
-    update(dt);
-    draw();
-}
-</pre>
-
-<p>每一帧我们都会计算上一帧更新的时间<code>last</code>和当前时间<code>now</code>的差值<code>dt</code>，然后我们使用这个差值来更新我们的方块的位置。下面是使用基于时间的动画的结果。</p>
-<iframe style="margin: 0 auto; display: block;" src="/posts-asset/TimeBasedAnimation/timeBasedPoor.html" height="250" width="91%" frameborder="0"></iframe>
-
-<p>正如你所看到的，黑色方块（设置为 60FPS）和蓝色方块（设置为 30FPS）保持相对同步。然而，红色方块（设置为 10FPS）的完全不生效而且有时候还会完全消失。如果你观察得时间足够长，你会看到蓝色方块最后落后黑色方块越来越多，甚至会有一些很奇怪的结果比如说粘在容器的边缘上。</p>
-<p>那么到底发生了什么？我们使用了基于时间的动画，因此无论帧速率多少，每个方块都应该移动相同的距离。原理上来看是没有问题的，但是在程序中却不是这样。</p>
-<p>在我们的基于时间的动画的使用中，有两个问题，第一个问题是每次更新方块到底要移动多少距离；第二个问题就是所谓的“螺旋式死亡”。</p>
-<p>第一个问题是个简单的数学问题。黑色方块每秒更新 60 次，即每次大约 0.0166 秒。然而，红色方块每秒更新 10 次，即每次大约 0.1 秒。这意味着每次更新的时候，红色方块移动的距离大约是黑色方块的六倍（大约 12px，如果我们设置每次更新方块移动 2px 的话）。这 12px 更新红色方块的位置，使得红色方块的位置穿过了容器的边，导致它后来没有反弹回来。</p>
-<p><img src="/posts-asset/TimeBasedAnimation/time-based_animation.png" alt="A square&#39;s position is before the wall, but after it updates its position is past the wall, missing the detection of the wall completely."></p>
-<p>第二个问题是由于我们的更新花费的时间比它们应该要花费的时间稍微长一点。你可以阅读<a href="http://gafferongames.com/game-physics/fix-your-timestep/" target="_blank" rel="external">这篇文章</a>来修复你的问题。</p>
-<p>为了修复我们的问题，我们使用上面提到的文章的最后部分的解决方案。</p>
-<p>####基于时间的动画（改良）</p>
-<p>为了修复我们的问题，我们将实现一个固定<code>dt</code>更新(或把<code>dt</code>设置为常熟传递给每个更新)。这种方式，每次更新每个方块只会移动 2px，这样，我们就解决了第一个问题。</p>
-<p>然而，每个方块还是需要基于上一帧的时间来更新不同的次数。因此我们还是需要记录自上一帧结束到现在经历了多少时间以及计算更新每个方块多少次。</p>
-<p>因为我们是在固定的<code>dt</code>内更新的，每一帧会剩余一点点小于<code>dt</code>的时间，这些剩余的时间保存起来以便于我们能准确的得出下一帧需要移动的距离，这样就解决了问题二（螺旋式死亡）。</p>
-<p>更新的代码如下</p>
-<pre class="prettyprint">
-last = new Date().getTime();
-// 设置 dt 为常量
-dt = 1000 / 60;
-function animationLoop() {
-    now = new Date().getTime();
-    passed = now - last;
-    last = now;
-    accumulator += passed;
-    while (accumulator >= dt) {
-        update(dt);
-        accumulator -= dt;
-    }
-    draw();
-}
-</pre>
-
-<p>下面是代码结果</p>
-<iframe style="margin: 0 auto; display: block;" src="/posts-asset/TimeBasedAnimation/timeBasedRight.html" height="250" width="91%" frameborder="0"></iframe>
-
-<p>正如你所看到的，无论帧速率是什么，每个方块都保持同步。唯一的区别是动画的平滑程度（FPS 越高意味着动画越平滑）。</p>
-<p>####结论</p>
-<p>如果能确保帧速率不会变化（这是不可能的），基于帧的动画就会很好的工作。相反，应该使用基于时间的动画，来确保在不同的帧速率下体验是一致的。但是要注意，确保你的基于时间的动画使用了比较好的算法，否则，会出现一些意想不到的结果。</p>
-
-        
-    </div>
-
-    <div class="post-footer">
-        
-
-        
-            <div class="post-nav">
-                <div class="post-nav-prev post-nav-item">
-                    
-                        <a href="/2015/05/08/LazyMan/">LazyMan</a>
-                    
-                </div>
-                <div class="post-nav-next post-nav-item">
-                    
-                        <a href="/2014/02/24/正则表达式学习（二）/">正则表达式学习（二）</a>
-                    
-                </div>
-            </div>
-        
-
-        
-        
-    </div>
-</div>
-
-
-
-    
-      <div class="comments" id="comments">
-        
-          <div class="ds-thread" data-thread-key="2015/05/03/【翻译】为什么要使用基于时间的动画以及如何实现它/"
-               data-title="【翻译】为什么要使用基于时间的动画以及如何实现它" data-url="http://ielgnaw.github.io/2015/05/03/【翻译】为什么要使用基于时间的动画以及如何实现它/">
-          </div>
+            <a class="post-title-link" href="/2013/12/09/3333/">
+              3333
+            </a>
         
       </div>
-    
+
+      <div class="post-meta">
+        <span class="post-time"> 12-08 </span>
+      </div>
+
+    </div>
   </div>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <div class="post post-type-normal">
+    <div class="post-header">
+
+      <div class="post-title">
+        
+            <a class="post-title-link" href="/2013/12/09/如何更新nodejs/">
+              如何更新nodejs
+            </a>
+        
+      </div>
+
+      <div class="post-meta">
+        <span class="post-time"> 12-08 </span>
+      </div>
+
+    </div>
+  </div>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <div class="post post-type-normal">
+    <div class="post-header">
+
+      <div class="post-title">
+        
+            <a class="post-title-link" href="/2013/12/09/4444/">
+              4444
+            </a>
+        
+      </div>
+
+      <div class="post-meta">
+        <span class="post-time"> 12-08 </span>
+      </div>
+
+    </div>
+  </div>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <div class="post post-type-normal">
+    <div class="post-header">
+
+      <div class="post-title">
+        
+            <a class="post-title-link" href="/2013/12/09/5555/">
+              55555
+            </a>
+        
+      </div>
+
+      <div class="post-meta">
+        <span class="post-time"> 12-08 </span>
+      </div>
+
+    </div>
+  </div>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <div class="post post-type-normal">
+    <div class="post-header">
+
+      <div class="post-title">
+        
+            <a class="post-title-link" href="/2013/12/09/9999/">
+              9999
+            </a>
+        
+      </div>
+
+      <div class="post-meta">
+        <span class="post-time"> 12-08 </span>
+      </div>
+
+    </div>
+  </div>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <div class="post post-type-normal">
+    <div class="post-header">
+
+      <div class="post-title">
+        
+            <a class="post-title-link" href="/2013/12/07/正则表达式学习/">
+              正则表达式学习（一）
+            </a>
+        
+      </div>
+
+      <div class="post-meta">
+        <span class="post-time"> 12-07 </span>
+      </div>
+
+    </div>
+  </div>
+
+
+
+    
+
+      
+      
+      
+
+      
+      
+
+      
+
+  <div class="post post-type-normal">
+    <div class="post-header">
+
+      <div class="post-title">
+        
+            <a class="post-title-link" href="/2013/11/25/nodejs打开浏览器/">
+              nodejs打开浏览器
+            </a>
+        
+      </div>
+
+      <div class="post-meta">
+        <span class="post-time"> 11-24 </span>
+      </div>
+
+    </div>
+  </div>
+
+
+
+    
+
+  </div>
+
+  
+  <div class="pagination">
+    <a class="extend prev" rel="prev" href="/archives/">&laquo;</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
+  </div>
+
 
 
         </div>
@@ -213,6 +300,12 @@ function animationLoop() {
 
     
     
+  
+    <script type="text/javascript">
+      postMotionOptions = {stagger: 100, drag: true};
+    </script>
+  
+
 
     
   <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
@@ -402,351 +495,15 @@ function animationLoop() {
 
     
   
-<script type="text/javascript" id="bootstrap.scrollspy.custom">
-  /* ========================================================================
-  * Bootstrap: scrollspy.js v3.3.2
-  * http://getbootstrap.com/javascript/#scrollspy
-  * ========================================================================
-  * Copyright 2011-2015 Twitter, Inc.
-  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
-  * ======================================================================== */
-
-  /**
-   * Custom by iissnan
-   *
-   * - Add a `clear.bs.scrollspy` event.
-   * - Esacpe targets selector.
-   */
-
-
-  +function ($) {
-    'use strict';
-
-    // SCROLLSPY CLASS DEFINITION
-    // ==========================
-
-    function ScrollSpy(element, options) {
-      this.$body          = $(document.body)
-      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
-      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
-      this.selector       = (this.options.target || '') + ' .nav li > a'
-      this.offsets        = []
-      this.targets        = []
-      this.activeTarget   = null
-      this.scrollHeight   = 0
-
-      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
-      this.refresh()
-      this.process()
-    }
-
-    ScrollSpy.VERSION  = '3.3.2'
-
-    ScrollSpy.DEFAULTS = {
-      offset: 10
-    }
-
-    ScrollSpy.prototype.getScrollHeight = function () {
-      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
-    }
-
-    ScrollSpy.prototype.refresh = function () {
-      var that          = this
-      var offsetMethod  = 'offset'
-      var offsetBase    = 0
-
-      this.offsets      = []
-      this.targets      = []
-      this.scrollHeight = this.getScrollHeight()
-
-      if (!$.isWindow(this.$scrollElement[0])) {
-        offsetMethod = 'position'
-        offsetBase   = this.$scrollElement.scrollTop()
-      }
-
-      this.$body
-        .find(this.selector)
-        .map(function () {
-          var $el   = $(this)
-          var href  = $el.data('target') || $el.attr('href')
-          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
-
-          return ($href
-            && $href.length
-            && $href.is(':visible')
-            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
-        })
-        .sort(function (a, b) { return a[0] - b[0] })
-        .each(function () {
-          that.offsets.push(this[0])
-          that.targets.push(this[1])
-        })
-
-
-    }
-
-    ScrollSpy.prototype.process = function () {
-      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
-      var scrollHeight = this.getScrollHeight()
-      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
-      var offsets      = this.offsets
-      var targets      = this.targets
-      var activeTarget = this.activeTarget
-      var i
-
-      if (this.scrollHeight != scrollHeight) {
-        this.refresh()
-      }
-
-      if (scrollTop >= maxScroll) {
-        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
-      }
-
-      if (activeTarget && scrollTop < offsets[0]) {
-        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
-        this.activeTarget = null
-        return this.clear()
-      }
-
-      for (i = offsets.length; i--;) {
-        activeTarget != targets[i]
-          && scrollTop >= offsets[i]
-          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
-          && this.activate(targets[i])
-      }
-    }
-
-    ScrollSpy.prototype.activate = function (target) {
-      this.activeTarget = target
-
-      this.clear()
-
-      var selector = this.selector +
-        '[data-target="' + target + '"],' +
-        this.selector + '[href="' + target + '"]'
-
-      var active = $(selector)
-        .parents('li')
-        .addClass('active')
-
-      if (active.parent('.dropdown-menu').length) {
-        active = active
-          .closest('li.dropdown')
-          .addClass('active')
-      }
-
-      active.trigger('activate.bs.scrollspy')
-    }
-
-    ScrollSpy.prototype.clear = function () {
-      $(this.selector)
-        .parentsUntil(this.options.target, '.active')
-        .removeClass('active')
-    }
-
-
-    // SCROLLSPY PLUGIN DEFINITION
-    // ===========================
-
-    function Plugin(option) {
-      return this.each(function () {
-        var $this   = $(this)
-        var data    = $this.data('bs.scrollspy')
-        var options = typeof option == 'object' && option
-
-        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
-        if (typeof option == 'string') data[option]()
-      })
-    }
-
-    var old = $.fn.scrollspy
-
-    $.fn.scrollspy             = Plugin
-    $.fn.scrollspy.Constructor = ScrollSpy
-
-
-    // SCROLLSPY NO CONFLICT
-    // =====================
-
-    $.fn.scrollspy.noConflict = function () {
-      $.fn.scrollspy = old
-      return this
-    }
-
-
-    // SCROLLSPY DATA-API
-    // ==================
-
-    $(window).on('load.bs.scrollspy.data-api', function () {
-      $('[data-spy="scroll"]').each(function () {
-        var $spy = $(this)
-        Plugin.call($spy, $spy.data())
-      })
-    })
-
-  }(jQuery);
-</script>
-
-
-<script type="text/javascript" id="sidebar.toc.highlight">
-  $(document).ready(function () {
-    var tocSelector = '.post-toc';
-    var $tocSelector = $(tocSelector);
-    var activeCurrentSelector = '.active-current';
-
-    $tocSelector
-      .on('activate.bs.scrollspy', function () {
-        var $currentActiveElement = $(tocSelector + ' .active').last();
-
-        removeCurrentActiveClass();
-        $currentActiveElement.addClass('active-current');
-
-        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
-      })
-      .on('clear.bs.scrollspy', function () {
-        removeCurrentActiveClass();
-      });
-
-    function removeCurrentActiveClass () {
-      $(tocSelector + ' ' + activeCurrentSelector)
-        .removeClass(activeCurrentSelector.substring(1));
-    }
-
-    function processTOC () {
-      getTOCMaxHeight();
-      toggleTOCOverflowIndicators();
-    }
-
-    function getTOCMaxHeight () {
-      var $sidebarInner = $('.sidebar-inner');
-      var height = $('.sidebar').height() -
-                   $tocSelector.position().top -
-                   $('.post-toc-indicator-bottom').height();
-
-      $tocSelector.css('height', height);
-
-      return height;
-    }
-
-    function toggleTOCOverflowIndicators () {
-      tocOverflowIndicator(
-        '.post-toc-indicator-top',
-        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
-      );
-
-      tocOverflowIndicator(
-        '.post-toc-indicator-bottom',
-        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
-      )
-    }
-
-    $(document).on('sidebar.didShow', function () {
-      processTOC();
-    });
-
-    $('body').scrollspy({ target: tocSelector });
-    $(window).on('resize', function () {
-      if ( $('.sidebar').hasClass('sidebar-active') ) {
-        processTOC();
-      }
-    });
-
-    onScroll($tocSelector);
-
-    function onScroll (element) {
-      element.on('mousewheel DOMMouseScroll', function (event) {
-          var oe = event.originalEvent;
-          var delta = oe.wheelDelta || -oe.detail;
-          var self = this;
-
-          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
-          event.preventDefault();
-
-          toggleTOCOverflowIndicators();
-      });
-    }
-
-    function tocOverflowIndicator (indicator, action) {
-      $(indicator).velocity('stop').velocity({
-        opacity: action === 'show' ? 0.4 : 0
-      }, { duration: 100 });
-    }
-
-  });
-</script>
-
-
-  <script type="text/javascript" id="sidebar.nav">
-    $(document).ready(function () {
-      var html = $('html');
-
-      $('.sidebar-nav li').on('click', function () {
-        var item = $(this);
-        var activeTabClassName = 'sidebar-nav-active';
-        var activePanelClassName = 'sidebar-panel-active';
-        if (item.hasClass(activeTabClassName)) {
-          return;
-        }
-
-        var currentTarget = $('.' + activePanelClassName);
-        var target = $('.' + item.data('target'));
-
-        currentTarget.velocity('transition.slideUpOut', 200, function () {
-          target
-            .velocity('stop')
-            .velocity('transition.slideDownIn', 200)
-            .addClass(activePanelClassName);
-        });
-
-        item.siblings().removeClass(activeTabClassName);
-        item.addClass(activeTabClassName);
-      });
-
-      $('.post-toc a').on('click', function (e) {
-        e.preventDefault();
-        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
-        html.velocity('stop').velocity('scroll', {
-          offset: offset  + 'px',
-          mobileHA: false
-        });
-      });
-
-      // Expand sidebar on post detail page by default, when post has a toc.
-      var $tocContent = $('.post-toc-content');
-      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
-        setTimeout(function () {
-          $('.sidebar-toggle').trigger('click');
-        }, 800);
-      }
-    });
-  </script>
-
-
+    <script type="text/javascript" id="motion.page.archive">
+      $('.archive-year').velocity('transition.slideLeftIn');
+    </script>
+  
 
 
     
 
     
-  
-
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"ielgnaw"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-
-  
-
 
     
 
