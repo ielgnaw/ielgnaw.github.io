@@ -62,7 +62,7 @@
         <div class="content list">
             
 
-  <div id="posts" class="posts-expand">
+  <div id="posts" class="posts-expand post">
     
 
 <div class="list-item post">
@@ -104,8 +104,7 @@
         
             <p>最近学习了正则表达式，在这里记录一下。个人认为正则这个东西主要还是多看多用，熟练工种。。。用多了自然就熟悉了……这篇文章主要记录了一些元字符的用法以及正则表达式的一些特性例如回溯引用、前后查找等等。</p>
 <a id="more"></a>
-<p>####基本元字符</p>
-<table>
+<h4 id="基本元字符"><a href="#基本元字符" class="headerlink" title="基本元字符"></a>基本元字符</h4><table>
 <thead>
 <tr>
 <th style="text-align:left">元字符</th>
@@ -139,8 +138,7 @@
 </tr>
 </tbody>
 </table>
-<p>####数量元字符</p>
-<table>
+<h4 id="数量元字符"><a href="#数量元字符" class="headerlink" title="数量元字符"></a>数量元字符</h4><table>
 <thead>
 <tr>
 <th style="text-align:left">元字符</th>
@@ -187,8 +185,7 @@
 </tbody>
 </table>
 <p><code>+</code>和<code>*</code>都是贪婪型元字符，在匹配时会尽可能的从一段文本的开头一直匹配到这段文本的末尾，而不是从这段文本的开头匹配到碰到第一个匹配时位置。</p>
-<p>####位置元字符</p>
-<table>
+<h4 id="位置元字符"><a href="#位置元字符" class="headerlink" title="位置元字符"></a>位置元字符</h4><table>
 <thead>
 <tr>
 <th style="text-align:left">元字符</th>
@@ -230,8 +227,7 @@
 </tr>
 </tbody>
 </table>
-<p>####特殊字符元字符</p>
-<table>
+<h4 id="特殊字符元字符"><a href="#特殊字符元字符" class="headerlink" title="特殊字符元字符"></a>特殊字符元字符</h4><table>
 <thead>
 <tr>
 <th style="text-align:left">元字符</th>
@@ -301,8 +297,7 @@
 </tr>
 </tbody>
 </table>
-<p>####回溯引用和前后查找</p>
-<table>
+<h4 id="回溯引用和前后查找"><a href="#回溯引用和前后查找" class="headerlink" title="回溯引用和前后查找"></a>回溯引用和前后查找</h4><table>
 <thead>
 <tr>
 <th style="text-align:left">元字符</th>
@@ -347,8 +342,7 @@
 <p>回溯引用指模式的后半部分引用在模式的前半部分中定义的子表达式（可以把回溯引用想象成变量）。<strong>回溯引用只能用来引用模式里的子表达式（用<code>(</code>和<code>)</code>括起来的正则表达式片段）</strong><br>如：<code>[ ]+(\w+)[ ]+\1</code>，这个正则表达式会匹配一段文本中连续重复出现的单词，其中<code>[ ]+</code>匹配一个或多个空格，<code>\w+</code>匹配一个或多个字母数字字符，<code>[ ]+</code>匹配随后的空格。注意，<code>\w+</code>是在括号里的，是一个子表达式，这个子表达式的作用是把整个模式的一部分单独划分出来以便在后面引用。这个模式的最后一部分是<code>\1</code>，这是一个回溯引用，它引用的就是前面划分出来的子表达式<code>(\w+)</code>。<code>\1</code>代表的就是模式的第一个子表达式，同样，<code>\2</code>代表第二个，<code>\3</code>代表第三个……<code>\0</code>通常代表整个正则表达式。<br>js中用<code>\</code>来标识回溯引用，但是在替换操作时，用<code>$</code>代替<code>\</code>。</p>
 <p>前后查找是指包含的匹配本身并不返回，而是用于确定正确的匹配位置，它并不是匹配结果的一部分。前后查找分为向前查找和向后查找，<strong>js不支持向后查找</strong>。</p>
 <p>向前查找查找出现在被匹配文本之后（右边）的字符，但是不消费这个字符。向前查找指定了一个必须匹配但不在结果中返回的模式。向前查找实际上就是一个子表达式。语法上看，一个向前查找模式其实就是一个以<code>?=</code>开头的子表达式，需要匹配的文本跟在<code>=</code>后面。向前查找和向后查找本身其实是有返回结果的，只是这个结果的长度永远是0而已，因此，前后查找操作有时也被称为零宽查找。<br>向后查找查找出现在被匹配文本之前（左边）的字符，但是不消费它。向后查找操作符是<code>?&lt;=</code>。</p>
-<p>####大小写转换</p>
-<table>
+<h4 id="大小写转换"><a href="#大小写转换" class="headerlink" title="大小写转换"></a>大小写转换</h4><table>
 <thead>
 <tr>
 <th style="text-align:left">元字符</th>
@@ -378,8 +372,7 @@
 </tr>
 </tbody>
 </table>
-<p>####匹配模式</p>
-<table>
+<h4 id="匹配模式"><a href="#匹配模式" class="headerlink" title="匹配模式"></a>匹配模式</h4><table>
 <thead>
 <tr>
 <th style="text-align:left">元字符</th>
@@ -415,7 +408,7 @@ function test () {
             <div class="post-nav">
                 <div class="post-nav-prev post-nav-item">
                     
-                        <a href="/2013/12/09/5555/">55555</a>
+                        <a href="/2013/12/09/如何更新nodejs/">如何更新nodejs</a>
                     
                 </div>
                 <div class="post-nav-next post-nav-item">

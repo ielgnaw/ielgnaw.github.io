@@ -1,0 +1,224 @@
+.pln {
+  color: #000;
+}
+@media screen {
+  .str {
+    color: #080;
+  }
+  .kwd {
+    color: #008;
+  }
+  .com {
+    color: #800;
+  }
+  .typ {
+    color: #606;
+  }
+  .lit {
+    color: #066;
+  }
+  .pun,
+  .opn,
+  .clo {
+    color: #660;
+  }
+  .tag {
+    color: #008;
+  }
+  .atn {
+    color: #606;
+  }
+  .atv {
+    color: #080;
+  }
+  .dec,
+  .var {
+    color: #606;
+  }
+  .fun {
+    color: #f00;
+  }
+}
+@media print, projection {
+  .str {
+    color: #060;
+  }
+  .kwd {
+    color: #006;
+/*font-weight:bold*/
+  }
+  .com {
+    color: #600;
+    font-style: italic;
+  }
+  .typ {
+    color: #404;
+    font-weight: bold;
+  }
+  .lit {
+    color: #044;
+  }
+  .pun,
+  .opn,
+  .clo {
+    color: #440;
+  }
+  .tag {
+    color: #006;
+    font-weight: bold;
+  }
+  .atn {
+    color: #404;
+  }
+  .atv {
+    color: #060;
+  }
+}
+pre.prettyprint {
+  padding: 2px;
+  border: 1px solid #888;
+}
+ol.linenums {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/*li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8{list-style-type:none;}li.L1,li.L3,li.L5,li.L7,li.L9{background:#eee}*/
+/*.prettyprint{font-family: Menlo, Monaco, 'Andale Mono', 'lucida console', 'Courier New', monospace; font-size: 12px;}.prettyprint,pre.prettyprint{background-color:#272822;border:1px solid #272822;overflow:hidden;padding:8px;}.prettyprint.linenums,pre.prettyprint.linenums{-webkit-box-shadow:inset 40px 0 0 #39382E,inset 41px 0 0 #464741;-moz-box-shadow:inset 40px 0 0 #39382E,inset 41px 0 0 #464741;box-shadow:inset 40px 0 0 #39382E,inset 41px 0 0 #464741;}.prettyprint.linenums ol,pre.prettyprint.linenums ol{margin:0 0 0 33px;}.prettyprint.linenums ol li,pre.prettyprint.linenums ol li{padding-left:12px;color:#bebec5;line-height:20px;margin-left:0;list-style:decimal;}.prettyprint .com{color:#93a1a1;}.prettyprint .lit{color:#AE81FF;}.prettyprint .pun,.prettyprint .opn,.prettyprint .clo{color:#F8F8F2;}.prettyprint .fun{color:#dc322f;}.prettyprint .str,.prettyprint .atv{color:#E6DB74;}.prettyprint .kwd,.prettyprint .tag{color:#F92659;}.prettyprint .typ,.prettyprint .atn,.prettyprint .dec,.prettyprint .var{color:#A6E22E;}.prettyprint .pln{color:#66D9EF;}*/
+pre.prettyprint {
+  font-family: Menlo, Monaco, 'Andale Mono', 'lucida console', 'Courier New', monospace;
+  font-size: 12px;
+  display: block;
+  background-color: #042029;
+  border-radius: 5px;
+}
+pre .nocode {
+  background-color: none;
+  color: #000;
+}
+pre .str {
+  color: #e6db6e;
+}
+/* string */
+pre .kwd {
+  color: #66d9ef;
+/*font-weight: bold*/
+}
+/* keyword */
+pre .com {
+  color: #75715c;
+  font-style: italic;
+}
+/* comment */
+pre .typ {
+  color: #a6e22e;
+}
+/* type */
+pre .lit {
+  color: #f22672;
+}
+/* literal */
+pre .pun {
+  color: #fff;
+}
+/* punctuation */
+pre .pln {
+  color: #fff;
+}
+/* plaintext */
+pre .tag {
+  color: #f8f8f2;
+}
+/* html/xml tag */
+pre .atn {
+  color: #a6e22e;
+  font-weight: bold;
+}
+/* attribute name */
+pre .atv {
+  color: #ffa0a0;
+}
+/* attribute value */
+pre .dec {
+  color: #ae81fc;
+}
+/* decimal */
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #aeaeae;
+  padding-left: 34px;
+}
+/* IE indents via margin-left */
+li.L0,
+li.L1,
+li.L2,
+li.L3,
+li.L5,
+li.L6,
+li.L7,
+li.L8 {
+  list-style-type: none;
+}
+/* Alternate shading for lines */
+.prettyprint.linenums ol li,
+pre.prettyprint.linenums ol li {
+  color: #bebec5;
+  list-style: decimal-leading-zero;
+  line-height: 20px;
+}
+.prettyprint.linenums,
+pre.prettyprint.linenums {
+  -webkit-box-shadow: inset 0px 0 0 #39382e, inset 29px 0 0 #464741;
+  -moz-box-shadow: inset 0px 0 0 #39382e, inset 29px 0 0 #464741;
+  box-shadow: inset 0px 0 0 #39382e, inset 29px 0 0 #464741;
+}
+@media print {
+  pre.prettyprint {
+    background-color: none;
+  }
+  pre .str,
+  code .str {
+    color: #060;
+  }
+  pre .kwd,
+  code .kwd {
+    color: #006;
+    font-weight: bold;
+  }
+  pre .com,
+  code .com {
+    color: #600;
+    font-style: italic;
+  }
+  pre .typ,
+  code .typ {
+    color: #404;
+    font-weight: bold;
+  }
+  pre .lit,
+  code .lit {
+    color: #044;
+  }
+  pre .pun,
+  code .pun {
+    color: #440;
+  }
+  pre .pln,
+  code .pln {
+    color: #000;
+  }
+  pre .tag,
+  code .tag {
+    color: #006;
+    font-weight: bold;
+  }
+  pre .atn,
+  code .atn {
+    color: #404;
+  }
+  pre .atv,
+  code .atv {
+    color: #060;
+  }
+}

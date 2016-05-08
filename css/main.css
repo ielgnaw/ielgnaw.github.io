@@ -213,6 +213,214 @@
   color: #666;
   border-bottom: none;
 }
+.pln {
+  color: #000;
+}
+@media screen {
+  .str {
+    color: #080;
+  }
+  .kwd {
+    color: #008;
+  }
+  .com {
+    color: #800;
+  }
+  .typ {
+    color: #606;
+  }
+  .lit {
+    color: #066;
+  }
+  .pun,
+  .opn,
+  .clo {
+    color: #660;
+  }
+  .tag {
+    color: #008;
+  }
+  .atn {
+    color: #606;
+  }
+  .atv {
+    color: #080;
+  }
+  .dec,
+  .var {
+    color: #606;
+  }
+  .fun {
+    color: #f00;
+  }
+}
+@media print, projection {
+  .str {
+    color: #060;
+  }
+  .kwd {
+    color: #006;
+/*font-weight:bold*/
+  }
+  .com {
+    color: #600;
+    font-style: italic;
+  }
+  .typ {
+    color: #404;
+    font-weight: bold;
+  }
+  .lit {
+    color: #044;
+  }
+  .pun,
+  .opn,
+  .clo {
+    color: #440;
+  }
+  .tag {
+    color: #006;
+    font-weight: bold;
+  }
+  .atn {
+    color: #404;
+  }
+  .atv {
+    color: #060;
+  }
+}
+pre.prettyprint {
+  padding: 2px;
+  border: 1px solid #888;
+}
+ol.linenums {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+pre.prettyprint {
+  font-family: Menlo, Monaco, 'Andale Mono', 'lucida console', 'Courier New', monospace;
+  font-size: 12px;
+  display: block;
+  background-color: #042029;
+  border-radius: 5px;
+}
+pre .nocode {
+  background-color: none;
+  color: #000;
+}
+pre .str {
+  color: #e6db6e;
+}
+pre .kwd {
+  color: #66d9ef;
+/*font-weight: bold*/
+}
+pre .com {
+  color: #75715c;
+  font-style: italic;
+}
+pre .typ {
+  color: #a6e22e;
+}
+pre .lit {
+  color: #f22672;
+}
+pre .pun {
+  color: #fff;
+}
+pre .pln {
+  color: #fff;
+}
+pre .tag {
+  color: #f8f8f2;
+}
+pre .atn {
+  color: #a6e22e;
+  font-weight: bold;
+}
+pre .atv {
+  color: #ffa0a0;
+}
+pre .dec {
+  color: #ae81fc;
+}
+ol.linenums {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #aeaeae;
+  padding-left: 34px;
+}
+li.L0,
+li.L1,
+li.L2,
+li.L3,
+li.L5,
+li.L6,
+li.L7,
+li.L8 {
+  list-style-type: none;
+}
+.prettyprint.linenums ol li,
+pre.prettyprint.linenums ol li {
+  color: #bebec5;
+  list-style: decimal-leading-zero;
+  line-height: 20px;
+}
+.prettyprint.linenums,
+pre.prettyprint.linenums {
+  -webkit-box-shadow: inset 0px 0 0 #39382e, inset 29px 0 0 #464741;
+  -moz-box-shadow: inset 0px 0 0 #39382e, inset 29px 0 0 #464741;
+  box-shadow: inset 0px 0 0 #39382e, inset 29px 0 0 #464741;
+}
+@media print {
+  pre.prettyprint {
+    background-color: none;
+  }
+  pre .str,
+  code .str {
+    color: #060;
+  }
+  pre .kwd,
+  code .kwd {
+    color: #006;
+    font-weight: bold;
+  }
+  pre .com,
+  code .com {
+    color: #600;
+    font-style: italic;
+  }
+  pre .typ,
+  code .typ {
+    color: #404;
+    font-weight: bold;
+  }
+  pre .lit,
+  code .lit {
+    color: #044;
+  }
+  pre .pun,
+  code .pun {
+    color: #440;
+  }
+  pre .pln,
+  code .pln {
+    color: #000;
+  }
+  pre .tag,
+  code .tag {
+    color: #006;
+    font-weight: bold;
+  }
+  pre .atn,
+  code .atn {
+    color: #404;
+  }
+  pre .atv,
+  code .atv {
+    color: #060;
+  }
+}
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -304,7 +512,6 @@ ul ol {
 }
 ol {
   list-style: inside decimal;
-  padding-left: 0;
 }
 ol li {
   margin-bottom: 0.25rem;
@@ -518,211 +725,6 @@ tbody tr:nth-child(odd) th {
 .projects-list a {
   color: #333;
 }
-.highlight .hll {
-  background-color: #ffc;
-}
-.highlight .c {
-  color: #998;
-  font-style: italic;
-}
-.highlight .err {
-  color: #a61717;
-  background-color: #e3d2d2;
-}
-.highlight .k {
-  color: #000;
-  font-weight: bold;
-}
-.highlight .o {
-  color: #000;
-  font-weight: bold;
-}
-.highlight .cm {
-  color: #998;
-  font-style: italic;
-}
-.highlight .cp {
-  color: #999;
-  font-weight: bold;
-  font-style: italic;
-}
-.highlight .c1 {
-  color: #998;
-  font-style: italic;
-}
-.highlight .cs {
-  color: #999;
-  font-weight: bold;
-  font-style: italic;
-}
-.highlight .gd {
-  color: #000;
-  background-color: #fdd;
-}
-.highlight .ge {
-  color: #000;
-  font-style: italic;
-}
-.highlight .gr {
-  color: #a00;
-}
-.highlight .gh {
-  color: #999;
-}
-.highlight .gi {
-  color: #000;
-  background-color: #dfd;
-}
-.highlight .go {
-  color: #888;
-}
-.highlight .gp {
-  color: #555;
-}
-.highlight .gs {
-  font-weight: bold;
-}
-.highlight .gu {
-  color: #aaa;
-}
-.highlight .gt {
-  color: #a00;
-}
-.highlight .kc {
-  color: #000;
-  font-weight: bold;
-}
-.highlight .kd {
-  color: #000;
-  font-weight: bold;
-}
-.highlight .kn {
-  color: #000;
-  font-weight: bold;
-}
-.highlight .kp {
-  color: #000;
-  font-weight: bold;
-}
-.highlight .kr {
-  color: #000;
-  font-weight: bold;
-}
-.highlight .kt {
-  color: #458;
-  font-weight: bold;
-}
-.highlight .m {
-  color: #099;
-}
-.highlight .s {
-  color: #d01040;
-}
-.highlight .na {
-  color: #008080;
-}
-.highlight .nb {
-  color: #0086b3;
-}
-.highlight .nc {
-  color: #458;
-  font-weight: bold;
-}
-.highlight .no {
-  color: #008080;
-}
-.highlight .nd {
-  color: #3c5d5d;
-  font-weight: bold;
-}
-.highlight .ni {
-  color: #800080;
-}
-.highlight .ne {
-  color: #900;
-  font-weight: bold;
-}
-.highlight .nf {
-  color: #900;
-  font-weight: bold;
-}
-.highlight .nl {
-  color: #900;
-  font-weight: bold;
-}
-.highlight .nn {
-  color: #555;
-}
-.highlight .nt {
-  color: #000080;
-}
-.highlight .nv {
-  color: #008080;
-}
-.highlight .ow {
-  color: #000;
-  font-weight: bold;
-}
-.highlight .w {
-  color: #bbb;
-}
-.highlight .mf {
-  color: #099;
-}
-.highlight .mh {
-  color: #099;
-}
-.highlight .mi {
-  color: #099;
-}
-.highlight .mo {
-  color: #099;
-}
-.highlight .sb {
-  color: #d01040;
-}
-.highlight .sc {
-  color: #d01040;
-}
-.highlight .sd {
-  color: #d01040;
-}
-.highlight .s2 {
-  color: #d01040;
-}
-.highlight .se {
-  color: #d01040;
-}
-.highlight .sh {
-  color: #d01040;
-}
-.highlight .si {
-  color: #d01040;
-}
-.highlight .sx {
-  color: #d01040;
-}
-.highlight .sr {
-  color: #009926;
-}
-.highlight .s1 {
-  color: #d01040;
-}
-.highlight .ss {
-  color: #990073;
-}
-.highlight .bp {
-  color: #999;
-}
-.highlight .vc {
-  color: #008080;
-}
-.highlight .vg {
-  color: #008080;
-}
-.highlight .vi {
-  color: #008080;
-}
-.highlight .il {
-  color: #099;
+.post {
+  opacity: 0;
 }
